@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,8 +35,8 @@ public class MovieControllerTest {
 	@MockBean
 	private MovieService movieService;
 
-	@MockBean
-	private KafkaTemplate template;
+	// @MockBean
+	// private KafkaTemplate template;
 
 	// Mock the authentication process
 	private void authUser() {

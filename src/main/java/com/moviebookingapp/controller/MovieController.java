@@ -35,13 +35,11 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1.0/moviebooking")
 @CrossOrigin("*")
 @OpenAPIDefinition(info = @Info(title = "Movie Application API", description = "Provides endpoints for managing movies."))
-@Slf4j
 public class MovieController {
 
 	@Autowired
@@ -53,11 +51,11 @@ public class MovieController {
 	@Autowired
 	private MovieService movieService;
 
-//	@Autowired
-//	private KafkaTemplate<String, Object> template;
-//
-//	@Autowired
-//	private NewTopic topic;
+	// @Autowired
+	// private KafkaTemplate<String, Object> template;
+	//
+	// @Autowired
+	// private NewTopic topic;
 
 	@Autowired
 	private TicketRepository ticketRepository;
@@ -71,7 +69,7 @@ public class MovieController {
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<String> changePassword(@RequestBody LoginRequest request,
 			@PathVariable("username") String username) {
-//		log.debug("Forgot Password accessed by " + request.getUsername());
+		// log.debug("Forgot Password accessed by " + request.getUsername());
 		Optional<User> newUser = userRepository.findByUsername(username);
 		User availableUser = newUser.get();
 		User updatedUser = new User(username, availableUser.getFirstName(), availableUser.getLastName(),
@@ -80,7 +78,7 @@ public class MovieController {
 		updatedUser.setUserId(availableUser.getUserId());
 		updatedUser.setRole(availableUser.getRole());
 		userRepository.save(updatedUser);
-//		log.debug(request.getUsername() + " has changed the password successfully");
+		// log.debug(request.getUsername() + " has changed the password successfully");
 		return new ResponseEntity<>("Password changed successfully!", HttpStatus.OK);
 	}
 
@@ -88,13 +86,13 @@ public class MovieController {
 	@SecurityRequirement(name = "Bearer Authentication")
 	@Operation(summary = "search all movies")
 	public ResponseEntity<List<Movie>> getAllMovies() {
-//		log.debug("All Movies are accessible here!");
+		// log.debug("All Movies are accessible here!");
 		List<Movie> allMovies = movieService.getAllMovies();
 		if (allMovies.isEmpty()) {
-//			log.debug("No Movies are available currently!");
+			// log.debug("No Movies are available currently!");
 			throw new MovieNotFoundException("No Movies Available!");
 		}
-//		log.debug("Available Movies Listed!");
+		// log.debug("Available Movies Listed!");
 		return new ResponseEntity<>(allMovies, HttpStatus.FOUND);
 	}
 
@@ -102,13 +100,13 @@ public class MovieController {
 	@SecurityRequirement(name = "Bearer Authentication")
 	@Operation(summary = "Search Movies By Name")
 	public ResponseEntity<List<Movie>> getMovieByName(@PathVariable("movieName") String movieName) {
-//		log.debug("Search a movie by its name!");
+		// log.debug("Search a movie by its name!");
 		List<Movie> allMovies = movieService.getMovieByName(movieName);
 		if (allMovies.isEmpty()) {
-//			log.debug("No movies found: " + movieName);
+			// log.debug("No movies found: " + movieName);
 			throw new MovieNotFoundException("Movie not found: " + movieName);
 		}
-//		log.debug("Movie with title: " + movieName + " found!");
+		// log.debug("Movie with title: " + movieName + " found!");
 		return new ResponseEntity<>(allMovies, HttpStatus.OK);
 	}
 
@@ -117,12 +115,12 @@ public class MovieController {
 	@Operation(summary = "book ticket")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> bookTickets(@RequestBody Ticket ticket, @PathVariable("movieName") String movieName) {
-//		log.debug(ticket.getUsername() + " entered to book tickets!");
+		// log.debug(ticket.getUsername() + " entered to book tickets!");
 		List<Ticket> allTickets = movieService.findSeats(movieName, ticket.getTheatreName());
 		for (Ticket each : allTickets) {
 			for (int i = 0; i < ticket.getNoOfTickets(); i++) {
 				if (each.getSeatNumber().contains(ticket.getSeatNumber().get(i))) {
-//					log.debug("Seat is already booked!");
+					// log.debug("Seat is already booked!");
 					throw new SeatAlreadyBookedException(
 							"Seat number " + ticket.getSeatNumber().get(i) + " is already booked!");
 				}
@@ -131,16 +129,20 @@ public class MovieController {
 
 		if (movieService.findAvailableTickets(movieName, ticket.getTheatreName()).get(0).getTicketsAvailable() >= ticket
 				.getNoOfTickets()) {
-//			log.info("Available tickets = " + movieService.findAvailableTickets(movieName, ticket.getTheatreName()).get(0).getTicketsAvailable());
+			// log.info("Available tickets = " +
+			// movieService.findAvailableTickets(movieName,
+			// ticket.getTheatreName()).get(0).getTicketsAvailable());
 			movieService.addTicket(ticket);
-//			log.debug(ticket.getUsername() + "booked" + ticket.getNoOfTickets() + " tickets!");
-//			template.send(topic.name(), "Movie ticket booked! " + "\nBooking Details: " + ticket);
+			// log.debug(ticket.getUsername() + "booked" + ticket.getNoOfTickets() + "
+			// tickets!");
+			// template.send(topic.name(), "Movie ticket booked! " + "\nBooking Details: " +
+			// ticket);
 			movieService.updateAvailableTickets(movieName, ticket.getTheatreName(), ticket.getNoOfTickets());
 			return new ResponseEntity<>("Tickets Booked Successfully! Seat Numbers are: " + ticket.getSeatNumber(),
 					HttpStatus.OK);
 		}
 
-//		log.debug("All tickets are sold out!");
+		// log.debug("All tickets are sold out!");
 		return new ResponseEntity<>("\"All Tickets Sold Out!\"", HttpStatus.OK);
 	}
 
@@ -188,7 +190,8 @@ public class MovieController {
 			throw new MovieNotFoundException("No movies available with the name: " + movieName);
 		}
 		movieService.deleteMovieByName(movieName);
-//		template.send(topic.name(), "Movie Deleted By Admin" + movieName + " is available no more!");
+		// template.send(topic.name(), "Movie Deleted By Admin" + movieName + " is
+		// available no more!");
 		return new ResponseEntity<>("Movie deleted successfully!", HttpStatus.OK);
 	}
 }
