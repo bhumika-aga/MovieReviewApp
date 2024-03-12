@@ -1,0 +1,47 @@
+{
+  "name": "moviebookingfrontend",
+  "version": "1.0.0",
+  "description": "Movie Booking App Frontend Using ReactJS",
+  "scripts": {
+    "start": "parcel src/index.js",
+    "build": "parcel build src/index.js",
+    "test": "jest",
+    "watch-test": "jest --watch",
+    "proxy": "http://localhost:3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://github.com/bhumika-aga/FreezeMySeat_Application.git"
+  },
+  "author": "bhumika-aga",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "autoprefixer": "^10.4.16",
+    "babel-jest": "^29.4.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "buffer": "^6.0.3",
+    "jest": "^29.4.1",
+    "jest-environment-jsdom": "^29.4.1",
+    "parcel": "^2.8.2",
+    "postcss": "^8.4.33",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.4.1"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "axios": "^1.6.5",
+    "babel": "^6.23.0",
+    "npm": "^10.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.2",
+    "web-vitals": "^3.5.1"
+  },
+  "browserslist": [
+    "cover 100%"
+  ]
+}
