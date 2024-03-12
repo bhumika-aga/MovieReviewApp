@@ -1,0 +1,14 @@
+{
+    "properties": [
+        {
+            "name": "moviebookingapp.app.jwtSecret",
+            "type": "java.lang.String",
+            "description": "JWT Seacret for Authorization"
+        },
+        {
+            "name": "moviebookingapp.app.jwtExpirationMs",
+            "type": "java.lang.String",
+            "description": "Session time in milliseconds"
+        }
+    ]
+}
