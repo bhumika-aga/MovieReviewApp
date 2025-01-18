@@ -77,23 +77,23 @@ public class AuthController {
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
-					Role admin = roleRepository.findByRole(UserRole.ADMIN)
-							.orElseThrow(() -> new RuntimeException(errorMessage));
-					roles.add(admin);
-					break;
+					case "admin":
+						Role admin = roleRepository.findByRole(UserRole.ADMIN)
+								.orElseThrow(() -> new RuntimeException(errorMessage));
+						roles.add(admin);
+						break;
 
-				case "guest":
-					Role mod = roleRepository.findByRole(UserRole.GUEST)
-							.orElseThrow(() -> new RuntimeException(errorMessage));
-					roles.add(mod);
-					break;
+					case "guest":
+						Role mod = roleRepository.findByRole(UserRole.GUEST)
+								.orElseThrow(() -> new RuntimeException(errorMessage));
+						roles.add(mod);
+						break;
 
-				default:
-					Role userRole = roleRepository.findByRole(UserRole.USER)
-							.orElseThrow(() -> new RuntimeException(errorMessage));
-					roles.add(userRole);
-					break;
+					default:
+						Role userRole = roleRepository.findByRole(UserRole.USER)
+								.orElseThrow(() -> new RuntimeException(errorMessage));
+						roles.add(userRole);
+						break;
 				}
 			});
 		}

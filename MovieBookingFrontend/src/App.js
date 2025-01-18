@@ -1,3 +1,4 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import AddNewMovie from "./components/AddNewMovie";
 import BookTicket from "./components/BookTicket";
@@ -8,7 +9,6 @@ import Registration from "./components/Registration";
 import ResetPassword from "./components/ResetPassword";
 import TheaterList from "./components/TheatreList";
 import UpdateMovie from "./components/UpdateMovie";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
     return (

@@ -1,5 +1,7 @@
 package com.moviebookingapp.security;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfiguration {
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
+		http.cors(withDefaults()).csrf(csrf -> csrf.disable())
 				.exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandler))
 				.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(requests -> requests.requestMatchers("/**", "/actuator/**").permitAll()
