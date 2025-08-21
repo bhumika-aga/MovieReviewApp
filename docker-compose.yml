@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: cinemaverse-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: CinemaVerse
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - cinemaverse-network
+
+  cinemaverse-backend:
+    build: .
+    container_name: cinemaverse-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=CinemaVerse
+    networks:
+      - cinemaverse-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  cinemaverse-network:
+    driver: bridge

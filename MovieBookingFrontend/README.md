@@ -1,70 +1,211 @@
-# Getting Started with Create React App
+# 🎬 CinemaVerse Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A cutting-edge React TypeScript frontend application with stunning IMDB-inspired design for the CinemaVerse platform.
 
-## Available Scripts
+## 🛠️ Tech Stack
 
-In the project directory, you can run:
+- **React** `19.1.1` - Latest UI framework
+- **TypeScript** `4.9.5` - Type-safe JavaScript
+- **Material-UI** `7.3.1` - Professional component library
+- **React Router** `6.30.1` - Client-side routing
+- **Axios** `1.11.0` - HTTP client with interceptors
+- **React Hook Form** `7.62.0` - Efficient form handling
+- **Yup** - Schema validation
 
-### `npm start`
+## 🎨 Design Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### IMDB-inspired Theme
+- **Dark Theme**: Professional dark color scheme
+- **Yellow Accents**: IMDB signature color (#f5c518)
+- **Material Design**: Consistent Material-UI components
+- **Responsive Layout**: Mobile-first responsive design
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Components
+- **Movie Cards**: Rich movie information display
+- **Search & Filter**: Real-time movie search and genre filtering
+- **Authentication**: Secure login/registration forms
+- **Navigation**: Responsive navbar with mobile drawer
+- **Notifications**: Snackbar notifications for user feedback
 
-### `npm test`
+## 📦 Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
+- Node.js 18+ and npm
+- Backend API running on port 8000
 
-### `npm run build`
+### Setup
+```bash
+# Install dependencies
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Start development server
+npm start
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Build for production
+npm run build
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Run tests
+npm test
 
-### `npm run eject`
+# Type checking
+npm run type-check
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🏗️ Project Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+src/
+├── components/           # React components
+│   ├── Movie.tsx        # Movie card component
+│   ├── MovieList.tsx    # Movie listing page
+│   ├── Navbar.tsx       # Navigation component
+│   ├── Login.tsx        # Login form
+│   ├── Registration.tsx # Registration form
+│   └── ...
+├── services/            # API services
+│   └── MovieService.ts  # Movie API calls
+├── types/               # TypeScript interfaces
+│   ├── Movie.ts         # Movie-related types
+│   └── User.ts          # User-related types
+├── App.tsx              # Main application component
+└── index.tsx            # Entry point
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🔧 Configuration
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Environment Variables
+Create a `.env` file:
+```env
+REACT_APP_API_BASE_URL=http://localhost:8000
+REACT_APP_ENV=development
+```
 
-## Learn More
+### Material-UI Theme
+The application uses a custom IMDB-inspired theme:
+- Primary color: #f5c518 (IMDB yellow)
+- Background: #0f0f0f (Dark)
+- Paper: #1a1a1a (Dark gray)
+- Text: White/Gray variants
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🎯 Features
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### User Authentication
+- JWT-based authentication
+- Form validation with Yup schemas
+- Persistent login state
+- Role-based access control
 
-### Code Splitting
+### Movie Management
+- Browse movies with rich metadata
+- Search movies by name
+- Filter by genre
+- View movie details (cast, director, rating)
+- Admin movie CRUD operations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Responsive Design
+- Mobile-first approach
+- Responsive grid layouts
+- Adaptive navigation
+- Touch-friendly interfaces
 
-### Analyzing the Bundle Size
+### Performance
+- Code splitting with React.lazy
+- Optimized re-renders
+- Efficient state management
+- Image optimization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🧪 Testing
 
-### Making a Progressive Web App
+### Run Tests
+```bash
+# Run all tests
+npm test
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Run with coverage
+npm test -- --coverage
 
-### Advanced Configuration
+# Run specific test
+npm test -- --testNamePattern="Movie"
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Test Structure
+- Component tests with React Testing Library
+- Service tests for API calls
+- Integration tests for user flows
+- Type checking with TypeScript
 
-### Deployment
+## 🚀 Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Build Process
+```bash
+# Create production build
+npm run build
 
-### `npm run build` fails to minify
+# Preview build locally
+npx serve -s build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Deployment Options
+- **Netlify**: Auto-deploy from Git
+- **Vercel**: Zero-config deployments
+- **AWS S3**: Static website hosting
+- **Docker**: Containerized deployment
+
+## 🔒 Security
+
+- XSS protection with React's built-in sanitization
+- JWT token secure storage
+- HTTPS enforcement in production
+- Input validation on all forms
+- CORS configuration
+
+## 📱 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## 🤝 Contributing
+
+1. Follow TypeScript best practices
+2. Use Material-UI components consistently
+3. Maintain responsive design patterns
+4. Write tests for new features
+5. Follow the established folder structure
+
+## 📋 Scripts
+
+- `npm start` - Start development server
+- `npm build` - Create production build
+- `npm test` - Run test suite
+- `npm run type-check` - TypeScript type checking
+- `npm run eject` - Eject from Create React App (not recommended)
+
+## 🎭 Component Guide
+
+### Movie Component
+Displays individual movie cards with:
+- Movie poster with hover effects
+- Rating display with stars
+- Movie metadata (year, duration, genre)
+- Action buttons (Book, Edit, Delete)
+
+### MovieList Component  
+Main listing page featuring:
+- Search functionality
+- Genre filtering
+- Responsive grid layout
+- Loading states
+- Error handling
+
+### Authentication Components
+- Login form with validation
+- Registration form with all required fields
+- Password visibility toggle
+- Error message display
+
+---
+
+**Built with ❤️ using React & TypeScript**

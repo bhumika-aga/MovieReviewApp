@@ -11,6 +11,7 @@ import com.moviebookingapp.model.Ticket;
 import com.moviebookingapp.repository.MovieRepository;
 import com.moviebookingapp.repository.TicketRepository;
 import com.moviebookingapp.service.MovieService;
+import com.moviebookingapp.service.MockMovieService;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -20,6 +21,9 @@ public class MovieServiceImpl implements MovieService {
 
 	@Autowired
 	private TicketRepository ticketRepository;
+	
+	@Autowired
+	private MockMovieService mockMovieService;
 
 	@Override
 	public Movie addMovie(Movie movie) {
@@ -28,12 +32,24 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public List<Movie> getAllMovies() {
-		return movieRepository.findAll();
+		try {
+			return movieRepository.findAll();
+		} catch (Exception e) {
+			// Fallback to mock service when MongoDB is not available
+			System.out.println("MongoDB not available, using mock data service");
+			return mockMovieService.getAllMovies();
+		}
 	}
 
 	@Override
 	public List<Movie> getMovieByName(String movieName) {
-		return movieRepository.findByMovieName(movieName);
+		try {
+			return movieRepository.findByMovieName(movieName);
+		} catch (Exception e) {
+			// Fallback to mock service when MongoDB is not available
+			System.out.println("MongoDB not available, using mock data service");
+			return mockMovieService.searchMovies(movieName);
+		}
 	}
 
 	@Override
