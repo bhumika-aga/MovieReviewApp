@@ -1,0 +1,52 @@
+services:
+  # Backend Service
+  - type: web
+    name: cinemaverse-backend
+    env: java
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -Dserver.port=$PORT -jar target/CinemaVerse-1.0.0.jar
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: MONGODB_URI
+        fromService:
+          type: pserv
+          name: cinemaverse-mongo
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://cinemaverse-frontend.onrender.com
+      - key: LOGGING_LEVEL_ROOT
+        value: WARN
+      - key: SPRING_DATA_MONGODB_DATABASE
+        value: CinemaVerse
+
+  # Frontend Service
+  - type: web
+    name: cinemaverse-frontend
+    env: static
+    buildCommand: cd MovieReviewFrontend && npm ci --legacy-peer-deps && npm run build
+    staticPublishPath: ./MovieReviewFrontend/build
+    plan: free
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: REACT_APP_API_BASE_URL
+        fromService:
+          type: web
+          name: cinemaverse-backend
+          property: host
+      - key: REACT_APP_ENV
+        value: production
+
+databases:
+  # MongoDB Database (Free tier)
+  - name: cinemaverse-mongo
+    databaseName: CinemaVerse
+    user: cinemaverse
+    plan: free

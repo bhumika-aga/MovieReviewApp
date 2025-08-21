@@ -1,7 +1,7 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { Container, Typography, Paper, Box, Button } from '@mui/material';
-import { Movie } from '../types/Movie';
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { Movie } from "../types/Movie";
 
 const TheatreList: React.FC = () => {
   const location = useLocation();
@@ -10,7 +10,7 @@ const TheatreList: React.FC = () => {
   if (!movie) {
     return (
       <Container maxWidth="md" sx={{ py: 8 }}>
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
+        <Paper sx={{ p: 4, textAlign: "center" }}>
           <Typography variant="h5" gutterBottom>
             No Movie Selected
           </Typography>
@@ -31,17 +31,23 @@ const TheatreList: React.FC = () => {
         <Typography variant="h6" color="text.secondary" sx={{ mb: 3 }}>
           {movie.movieName}
         </Typography>
-        
-        <Paper sx={{ p: 3, mb: 2, bgcolor: 'background.default' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+        <Paper sx={{ p: 3, mb: 2, bgcolor: "background.default" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Box>
               <Typography variant="h6">{movie.theatreName}</Typography>
               <Typography variant="body2" color="text.secondary">
                 {movie.ticketsAvailable} seats available
               </Typography>
             </Box>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               color="primary"
               disabled={movie.ticketsAvailable === 0}
             >

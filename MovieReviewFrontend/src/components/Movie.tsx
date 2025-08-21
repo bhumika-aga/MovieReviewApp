@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  PlayArrow as PlayIcon,
+  EventSeat as SeatIcon,
+  Star as StarIcon,
+  AccessTime as TimeIcon,
+} from "@mui/icons-material";
+import {
+  Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
-  Typography,
-  Button,
-  Box,
   Chip,
-  Rating,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
-} from '@mui/material';
-import {
-  PlayArrow as PlayIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  EventSeat as SeatIcon,
-  AccessTime as TimeIcon,
-  Star as StarIcon,
-} from '@mui/icons-material';
+  Rating,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Movie as MovieType } from '../types/Movie';
+import { Movie as MovieType } from "../types/Movie";
 
 interface MovieProps {
   movie: MovieType;
@@ -38,7 +38,7 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   const handleBookTickets = (): void => {
-    navigate('/theatre-list', { state: { movie } });
+    navigate("/theatre-list", { state: { movie } });
   };
 
   const handleEditMovie = (): void => {
@@ -55,7 +55,7 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
       await onDelete(movie.movieName);
       setShowDeleteDialog(false);
     } catch (error) {
-      console.error('Error deleting movie:', error);
+      console.error("Error deleting movie:", error);
     } finally {
       setIsDeleting(false);
     }
@@ -66,7 +66,7 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
   };
 
   const formatDuration = (duration?: number): string => {
-    if (!duration) return '';
+    if (!duration) return "";
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
     return `${hours}h ${minutes}m`;
@@ -74,61 +74,61 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
 
   const getImageSrc = (): string => {
     if (movie.moviePoster) {
-      if (movie.moviePoster.startsWith('http')) {
+      if (movie.moviePoster.startsWith("http")) {
         return movie.moviePoster;
       }
       return `data:image/jpeg;base64,${movie.moviePoster}`;
     }
-    return '/fbf435.jpg';
+    return "/fbf435.jpg";
   };
 
   return (
     <>
       <Card
         sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: '0 12px 30px rgba(245, 197, 24, 0.2)',
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "translateY(-8px)",
+            boxShadow: "0 12px 30px rgba(245, 197, 24, 0.2)",
           },
         }}
       >
-        <Box sx={{ position: 'relative' }}>
+        <Box sx={{ position: "relative" }}>
           <CardMedia
             component="img"
             height="300"
             image={getImageSrc()}
             alt={movie.movieName}
             sx={{
-              objectFit: 'cover',
-              transition: 'transform 0.3s ease',
-              '&:hover': {
-                transform: 'scale(1.02)',
+              objectFit: "cover",
+              transition: "transform 0.3s ease",
+              "&:hover": {
+                transform: "scale(1.02)",
               },
             }}
           />
-          
+
           {/* Rating Badge */}
           {movie.rating && (
             <Box
               sx={{
-                position: 'absolute',
+                position: "absolute",
                 top: 8,
                 right: 8,
-                backgroundColor: 'primary.main',
-                color: 'black',
+                backgroundColor: "primary.main",
+                color: "black",
                 borderRadius: 1,
                 px: 1,
                 py: 0.5,
-                fontWeight: 'bold',
-                fontSize: '0.875rem',
+                fontWeight: "bold",
+                fontSize: "0.875rem",
               }}
             >
-              <StarIcon sx={{ fontSize: '1rem', mr: 0.5 }} />
+              <StarIcon sx={{ fontSize: "1rem", mr: 0.5 }} />
               {movie.rating.toFixed(1)}
             </Box>
           )}
@@ -136,26 +136,26 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
           {/* Play Button Overlay */}
           <Box
             sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
               opacity: 0,
-              transition: 'opacity 0.3s ease',
-              '&:hover': { opacity: 1 },
+              transition: "opacity 0.3s ease",
+              "&:hover": { opacity: 1 },
             }}
           >
             <IconButton
               onClick={handleBookTickets}
               sx={{
-                backgroundColor: 'rgba(245, 197, 24, 0.9)',
-                color: 'black',
-                '&:hover': {
-                  backgroundColor: 'primary.main',
+                backgroundColor: "rgba(245, 197, 24, 0.9)",
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "primary.main",
                 },
               }}
             >
-              <PlayIcon sx={{ fontSize: '2rem' }} />
+              <PlayIcon sx={{ fontSize: "2rem" }} />
             </IconButton>
           </Box>
         </Box>
@@ -166,14 +166,14 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
             component="h3"
             gutterBottom
             sx={{
-              fontWeight: 'bold',
-              fontSize: '1.1rem',
+              fontWeight: "bold",
+              fontSize: "1.1rem",
               lineHeight: 1.2,
               mb: 1,
-              display: '-webkit-box',
+              display: "-webkit-box",
               WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
             }}
           >
             {movie.movieName}
@@ -182,14 +182,20 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
           {/* Movie Details */}
           <Box sx={{ mb: 2, space: 1 }}>
             {movie.releaseDate && (
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mb: 0.5 }}
+              >
                 Year: {new Date(movie.releaseDate).getFullYear()}
               </Typography>
             )}
 
             {movie.duration && (
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
-                <TimeIcon sx={{ fontSize: '1rem', mr: 0.5, color: 'text.secondary' }} />
+              <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
+                <TimeIcon
+                  sx={{ fontSize: "1rem", mr: 0.5, color: "text.secondary" }}
+                />
                 <Typography variant="body2" color="text.secondary">
                   {formatDuration(movie.duration)}
                 </Typography>
@@ -199,14 +205,14 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
             {movie.genre && (
               <Box sx={{ mb: 1 }}>
                 <Chip
-                  label={movie.genre.split(',')[0]?.trim()}
+                  label={movie.genre.split(",")[0]?.trim()}
                   size="small"
                   variant="outlined"
                   sx={{
-                    fontSize: '0.75rem',
-                    height: '24px',
-                    borderColor: 'primary.main',
-                    color: 'primary.main',
+                    fontSize: "0.75rem",
+                    height: "24px",
+                    borderColor: "primary.main",
+                    color: "primary.main",
                   }}
                 />
               </Box>
@@ -218,10 +224,10 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
                 color="text.secondary"
                 sx={{
                   mb: 0.5,
-                  display: '-webkit-box',
+                  display: "-webkit-box",
                   WebkitLineClamp: 1,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
                 }}
               >
                 Director: {movie.director}
@@ -234,13 +240,13 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
                 color="text.secondary"
                 sx={{
                   mb: 1,
-                  display: '-webkit-box',
+                  display: "-webkit-box",
                   WebkitLineClamp: 1,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
                 }}
               >
-                Stars: {movie.cast.slice(0, 3).join(', ')}
+                Stars: {movie.cast.slice(0, 3).join(", ")}
               </Typography>
             )}
           </Box>
@@ -250,13 +256,16 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
             <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
               Theatre: {movie.theatreName}
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <SeatIcon sx={{ fontSize: '1rem', mr: 0.5, color: 'text.secondary' }} />
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <SeatIcon
+                sx={{ fontSize: "1rem", mr: 0.5, color: "text.secondary" }}
+              />
               <Typography
                 variant="body2"
                 sx={{
-                  color: movie.ticketsAvailable > 0 ? 'success.main' : 'error.main',
-                  fontWeight: 'medium',
+                  color:
+                    movie.ticketsAvailable > 0 ? "success.main" : "error.main",
+                  fontWeight: "medium",
                 }}
               >
                 {movie.ticketsAvailable} seats available
@@ -266,7 +275,7 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
 
           {/* Rating Display */}
           {movie.rating && (
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
               <Rating
                 value={movie.rating / 2}
                 precision={0.1}
@@ -281,7 +290,7 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
           )}
 
           {/* Action Buttons */}
-          <Box sx={{ mt: 'auto' }}>
+          <Box sx={{ mt: "auto" }}>
             <Button
               fullWidth
               variant="contained"
@@ -290,11 +299,11 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
               disabled={movie.ticketsAvailable === 0}
               sx={{ mb: isAdmin ? 1 : 0, py: 1 }}
             >
-              {movie.ticketsAvailable > 0 ? 'Book Tickets' : 'Sold Out'}
+              {movie.ticketsAvailable > 0 ? "Book Tickets" : "Sold Out"}
             </Button>
 
             {isAdmin && (
-              <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box sx={{ display: "flex", gap: 1 }}>
                 <Button
                   fullWidth
                   variant="outlined"
@@ -330,7 +339,8 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you want to delete "{movie.movieName}"? This action cannot be undone.
+            Are you sure you want to delete "{movie.movieName}"? This action
+            cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -343,7 +353,7 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
             variant="contained"
             disabled={isDeleting}
           >
-            {isDeleting ? 'Deleting...' : 'Delete'}
+            {isDeleting ? "Deleting..." : "Delete"}
           </Button>
         </DialogActions>
       </Dialog>

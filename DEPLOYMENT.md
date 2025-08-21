@@ -1,8 +1,9 @@
-# 🚀 MovieBooking Application Deployment Guide
+# 🚀 CinemaVerse Application Deployment Guide
 
 ## ✅ Pre-Deployment Verification
 
 ### Backend Status
+
 - ✅ **Spring Boot 3.4.8** - Latest version configured
 - ✅ **Java 17** - Compiler and runtime configured
 - ✅ **Spring Security 6.2.9** - Modern security implementation
@@ -12,6 +13,7 @@
 - ✅ **Maven Build** - Clean compilation and packaging
 
 ### Frontend Status
+
 - ✅ **React 19.1.1** - Latest version implemented
 - ✅ **TypeScript 4.9.5** - Type checking configured
 - ✅ **Material-UI 5.15.0** - Component library integrated
@@ -23,6 +25,7 @@
 ## 🔧 Environment Setup
 
 ### System Requirements
+
 ```bash
 # Check versions
 java -version    # Should be 17+
@@ -32,6 +35,7 @@ mvn --version    # Should be 3.8+
 ```
 
 ### Database Setup
+
 ```bash
 # MongoDB (Local)
 mongod --version  # Should be 4.4+
@@ -43,9 +47,10 @@ mongod --version  # Should be 4.4+
 ## 🏃‍♂️ Quick Start
 
 ### 1. Clone and Setup
+
 ```bash
 git clone <repository-url>
-cd MovieBookingApp
+cd CinemaVerse
 
 # Backend dependencies
 mvn clean install
@@ -59,18 +64,20 @@ cd ..
 ### 2. Environment Configuration
 
 #### Backend (`src/main/resources/application.properties`)
+
 ```properties
 # Server
 server.port=8000
 
 # Database
-spring.data.mongodb.uri=mongodb://localhost:27017/MovieBookingApp
-# OR for cloud:
-# spring.data.mongodb.uri=mongodb+srv://user:pass@cluster.mongodb.net/MovieBookingApp
+spring.data.mongodb.uri=mongodb+srv://user:pass@cluster.mongodb.net/CinemaVerse
+spring.data.mongodb.database=CinemaVerse
+# OR for local:
+# spring.data.mongodb.uri=mongodb://localhost:27017/CinemaVerse
 
 # JWT (Use a secure key in production)
-moviebookingapp.app.jwtSecret=yourSecretKeyForJwtTokenGenerationThatIsLongEnoughForHMAC256
-moviebookingapp.app.jwtExpirationMs=86400000
+cinemaverse.app.jwtSecret=CinemaVerseSecretKeyForJwtTokenGenerationThatIsLongEnoughForHMAC256
+cinemaverse.app.jwtExpirationMs=86400000
 
 # Logging
 logging.level.com.moviebookingapp=INFO
@@ -78,6 +85,7 @@ logging.file.name=./logs/movieApp.log
 ```
 
 #### Frontend (`.env` in MovieBookingFrontend/)
+
 ```env
 REACT_APP_API_BASE_URL=http://localhost:8000
 REACT_APP_ENV=production
@@ -86,6 +94,7 @@ REACT_APP_ENV=production
 ### 3. Run Application
 
 #### Development Mode
+
 ```bash
 # Terminal 1: Start Backend
 mvn spring-boot:run
@@ -96,10 +105,11 @@ npm start
 ```
 
 #### Production Mode
+
 ```bash
 # Build Backend
 mvn clean package -DskipTests
-java -jar target/MovieBookingApp-0.0.1-SNAPSHOT.jar
+java -jar target/CinemaVerse-1.0.0.jar
 
 # Build Frontend
 cd MovieBookingFrontend
@@ -110,18 +120,22 @@ npm run build
 ## 🌐 Access Points
 
 ### Application URLs
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8000
-- **Swagger Docs**: http://localhost:8000/swagger-ui.html
-- **Actuator**: http://localhost:8000/actuator
 
-### Default Login (if seed data is loaded)
-- **Admin**: admin@movie.com / admin123
-- **User**: user@movie.com / user123
+- **Frontend**: <http://localhost:3001> (or 3000)
+- **Backend API**: <http://localhost:8000>
+- **Swagger Docs**: <http://localhost:8000/swagger-ui.html>
+- **Actuator**: <http://localhost:8000/actuator>
+- **API Docs**: <http://localhost:8000/api-docs>
+
+### Default Login (after data initialization)
+
+- **Admin**: Create via registration with ROLE_ADMIN
+- **User**: Create via registration with ROLE_USER
 
 ## 🔄 CI/CD Pipeline
 
 ### Build Commands
+
 ```bash
 # Backend Build & Test
 mvn clean compile
@@ -135,6 +149,7 @@ npm run build
 ```
 
 ### Docker Deployment
+
 ```dockerfile
 # Backend Dockerfile
 FROM openjdk:17-jdk-slim
@@ -157,11 +172,13 @@ COPY --from=builder /app/build /usr/share/nginx/html
 ## 📊 Monitoring & Health Checks
 
 ### Backend Health
+
 ```bash
 curl http://localhost:8000/actuator/health
 ```
 
 ### Application Metrics
+
 ```bash
 curl http://localhost:8000/actuator/metrics
 curl http://localhost:8000/actuator/info
@@ -170,6 +187,7 @@ curl http://localhost:8000/actuator/info
 ## 🔒 Security Configuration
 
 ### Production Security Checklist
+
 - [ ] Update JWT secret key (256-bit minimum)
 - [ ] Enable HTTPS/TLS
 - [ ] Configure CORS properly
@@ -180,6 +198,7 @@ curl http://localhost:8000/actuator/info
 - [ ] Review exposed actuator endpoints
 
 ### Environment Variables (Production)
+
 ```bash
 # Backend
 SPRING_PROFILES_ACTIVE=prod
@@ -197,6 +216,7 @@ REACT_APP_ENV=production
 ### Common Issues
 
 #### Backend Issues
+
 ```bash
 # Port already in use
 lsof -ti:8000 | xargs kill -9
@@ -209,6 +229,7 @@ mongod --config /usr/local/etc/mongod.conf --fork
 ```
 
 #### Frontend Issues
+
 ```bash
 # Dependency conflicts
 rm -rf node_modules package-lock.json
@@ -223,6 +244,7 @@ npm run build
 ```
 
 ### Log Locations
+
 - **Backend Logs**: `./logs/movieApp.log`
 - **Frontend Logs**: Browser Developer Console
 - **Build Logs**: `./target/` and `./build/`
@@ -230,6 +252,7 @@ npm run build
 ## 📈 Performance Optimization
 
 ### Backend
+
 - Enable database indexing
 - Configure connection pooling
 - Set up caching with Redis
@@ -237,6 +260,7 @@ npm run build
 - Use production profiles
 
 ### Frontend
+
 - Enable gzip compression
 - Use CDN for static assets
 - Implement code splitting
@@ -246,6 +270,7 @@ npm run build
 ## 🧪 Testing Strategy
 
 ### Backend Testing
+
 ```bash
 mvn test                    # Unit tests
 mvn integration-test        # Integration tests
@@ -253,6 +278,7 @@ mvn verify                  # All tests + quality checks
 ```
 
 ### Frontend Testing
+
 ```bash
 npm run type-check          # TypeScript validation
 npm run build               # Build validation
@@ -260,6 +286,7 @@ npm run build               # Build validation
 ```
 
 ### API Testing
+
 ```bash
 # Use Postman collection or curl
 curl -X GET http://localhost:8000/api/v1.0/moviebooking/all
@@ -271,6 +298,7 @@ curl -X POST http://localhost:8000/api/v1.0/moviebooking/login \
 ## 📋 Production Deployment Checklist
 
 ### Pre-Deployment
+
 - [ ] All tests passing
 - [ ] Security review completed
 - [ ] Performance testing done
@@ -279,6 +307,7 @@ curl -X POST http://localhost:8000/api/v1.0/moviebooking/login \
 - [ ] SSL certificates installed
 
 ### Deployment
+
 - [ ] Blue-green deployment strategy
 - [ ] Database backup created
 - [ ] Health checks configured
@@ -286,6 +315,7 @@ curl -X POST http://localhost:8000/api/v1.0/moviebooking/login \
 - [ ] Rollback plan prepared
 
 ### Post-Deployment
+
 - [ ] Smoke tests executed
 - [ ] Performance metrics monitored
 - [ ] Error rates checked
@@ -294,4 +324,4 @@ curl -X POST http://localhost:8000/api/v1.0/moviebooking/login \
 
 ---
 
-**Ready for Production! 🎬✨**
+Ready for Production! 🎬✨

@@ -1,23 +1,35 @@
 # 🎬 CinemaVerse
 
-Your Universe of Cinema Experiences - A modern full-stack movie booking platform with IMDB-inspired design, featuring cutting-edge React frontend and robust Spring Boot backend with comprehensive movie management and seamless booking capabilities.
+**Your Universe of Cinema Experiences** - A sophisticated, production-ready full-stack movie booking platform that combines the elegance of IMDB's design philosophy with modern web technologies. Built for movie enthusiasts and cinema operators, CinemaVerse delivers an immersive, responsive experience that makes discovering and booking movies effortless and enjoyable.
+
+## 🌟 What Makes CinemaVerse Special?
+
+CinemaVerse isn't just another movie booking app—it's a carefully crafted digital cinema experience that bridges the gap between movie discovery and seamless booking. With its sleek IMDB-inspired dark theme, lightning-fast performance, and intuitive user interface, it transforms how users interact with cinema content.
+
+**🎯 Perfect For:**
+
+- 🎭 **Movie Enthusiasts** - Discover movies with rich metadata, ratings, and cast information
+- 🏢 **Cinema Operators** - Manage theaters, showtimes, and bookings efficiently  
+- 💻 **Developers** - Learn modern full-stack development with industry-standard technologies
+- 🚀 **Startups** - Launch your cinema business with a professional, scalable platform
 
 ## 📋 Table of Contents
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Prerequisites](#prerequisites)
-- [Installation & Setup](#installation--setup)
-- [Running the Application](#running-the-application)
-- [API Documentation](#api-documentation)
-- [Testing](#testing)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
+- [Features](#-features)
+- [Tech Stack](#️-tech-stack)
+- [Architecture](#- architecture)
+- [Prerequisites](#-prerequisites)
+- [Installation & Setup](#-installation--setup)
+- [Running the Application](#- running-the-application)
+- [API Documentation](#-api-documentation)
+- [Testing](# -testing)
+- [Project Structure](# -project-structure)
+- [Contributing](# -contributing)
 
 ## ✨ Features
 
 ### 🎭 User Features
+
 - **Browse Movies**: View movies with IMDB-like card design
 - **Search & Filter**: Search movies by name and filter by genre
 - **Movie Details**: Comprehensive movie information (cast, director, rating, etc.)
@@ -26,12 +38,14 @@ Your Universe of Cinema Experiences - A modern full-stack movie booking platform
 - **Responsive Design**: Mobile-first responsive UI
 
 ### 👨‍💼 Admin Features
+
 - **Movie Management**: Add, update, delete movies
 - **Theatre Management**: Manage theatre and show timings
 - **User Management**: Admin dashboard for user oversight
 - **Analytics**: View booking statistics and reports
 
 ### 🎨 UI/UX Features
+
 - **IMDB-like Design**: Dark theme with yellow accents
 - **Material-UI Components**: Professional and polished interface
 - **Real-time Updates**: Dynamic content updates
@@ -41,6 +55,7 @@ Your Universe of Cinema Experiences - A modern full-stack movie booking platform
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React** `19.1.1` - UI framework
 - **TypeScript** `4.9.5` - Type-safe JavaScript
 - **Material-UI** `5.15.0` - Component library
@@ -49,6 +64,7 @@ Your Universe of Cinema Experiences - A modern full-stack movie booking platform
 - **React Hook Form** `7.62.0` - Form handling
 
 ### Backend
+
 - **Java** `17` - Core programming language
 - **Spring Boot** `3.4.8` - Application framework
 - **Spring Security** `6.2.9` - Authentication & authorization
@@ -59,6 +75,7 @@ Your Universe of Cinema Experiences - A modern full-stack movie booking platform
 - **JUnit 5** `5.9.3` - Testing framework
 
 ### Additional Technologies
+
 - **Kafka** - Event streaming platform
 - **Swagger/OpenAPI** - API documentation
 - **Lombok** - Java boilerplate reduction
@@ -66,7 +83,7 @@ Your Universe of Cinema Experiences - A modern full-stack movie booking platform
 
 ## 🏗️ Architecture
 
-```
+```txt
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   React Frontend │    │  Spring Boot    │    │    MongoDB      │
 │   (Port 3000)   │◄──►│   Backend       │◄──►│   Database      │
@@ -85,6 +102,7 @@ Your Universe of Cinema Experiences - A modern full-stack movie booking platform
 ## 📋 Prerequisites
 
 ### System Requirements
+
 - **Java** 17 or higher
 - **Node.js** 18+ and npm
 - **MongoDB** 4.4+ (local or cloud)
@@ -92,6 +110,7 @@ Your Universe of Cinema Experiences - A modern full-stack movie booking platform
 - **Git** (for version control)
 
 ### Development Tools (Recommended)
+
 - **VS Code** or **IntelliJ IDEA**
 - **MongoDB Compass** (database GUI)
 - **Postman** (API testing)
@@ -99,6 +118,7 @@ Your Universe of Cinema Experiences - A modern full-stack movie booking platform
 ## 🚀 Installation & Setup
 
 ### 1. Clone the Repository
+
 ```bash
 git clone <repository-url>
 cd MovieBookingApp
@@ -107,21 +127,27 @@ cd MovieBookingApp
 ### 2. Backend Setup
 
 #### MongoDB Configuration
-Update `src/main/resources/application.properties`:
+
+The application is configured to use MongoDB Atlas. Update `src/main/resources/application.properties`:
+
 ```properties
-spring.data.mongodb.uri=mongodb://localhost:27017/MovieBookingApp
-# or use MongoDB Atlas cloud connection
-spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/MovieBookingApp
+# MongoDB Atlas connection
+spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/CinemaVerse
+spring.data.mongodb.database=CinemaVerse
+# or use local MongoDB
+spring.data.mongodb.uri=mongodb://localhost:27017/CinemaVerse
 ```
 
 #### Install Backend Dependencies
+
 ```bash
 mvn clean install
 ```
 
 ### 3. Frontend Setup
+
 ```bash
-cd MovieBookingFrontend
+cd MovieReviewFrontend
 npm install
 ```
 
@@ -130,6 +156,7 @@ npm install
 ### Method 1: Development Mode
 
 #### Start Backend (Terminal 1)
+
 ```bash
 # From project root
 mvn spring-boot:run
@@ -137,24 +164,27 @@ mvn spring-boot:run
 ```
 
 #### Start Frontend (Terminal 2)
+
 ```bash
-# From MovieBookingFrontend directory
-cd MovieBookingFrontend
+# From MovieReviewFrontend directory
+cd MovieReviewFrontend
 npm start
-# Frontend runs on http://localhost:3000
+# Frontend runs on http://localhost:3001 (if 3000 is in use)
 ```
 
 ### Method 2: Production Build
 
 #### Build Backend JAR
+
 ```bash
 mvn clean package -DskipTests
-java -jar target/MovieBookingApp-0.0.1-SNAPSHOT.jar
+java -jar target/CinemaVerse-1.0.0.jar
 ```
 
 #### Build Frontend
+
 ```bash
-cd MovieBookingFrontend
+cd MovieReviewFrontend
 npm run build
 # Serve the build folder using a web server
 ```
@@ -162,10 +192,12 @@ npm run build
 ## 📚 API Documentation
 
 ### Authentication Endpoints
+
 - `POST /api/v1.0/moviebooking/register` - User registration
 - `POST /api/v1.0/moviebooking/login` - User login
 
 ### Movie Endpoints
+
 - `GET /api/v1.0/moviebooking/all` - Get all movies
 - `GET /api/v1.0/moviebooking/movies/search/{movieName}` - Search movies
 - `POST /api/v1.0/moviebooking/addMovie` - Add movie (Admin)
@@ -173,16 +205,19 @@ npm run build
 - `DELETE /api/v1.0/moviebooking/delete/{movieName}` - Delete movie (Admin)
 
 ### Booking Endpoints
+
 - `POST /api/v1.0/moviebooking/bookTicket` - Book tickets
 - `GET /api/v1.0/moviebooking/getAllBookedTickets` - Get all bookings
 - `GET /api/v1.0/moviebooking/getBookedTickets/{loginId}` - Get user bookings
 
 ### Swagger Documentation
+
 Access interactive API docs at: `http://localhost:8000/swagger-ui.html`
 
 ## 🧪 Testing
 
 ### Backend Tests
+
 ```bash
 # Run all tests
 mvn test
@@ -195,8 +230,9 @@ mvn test jacoco:report
 ```
 
 ### Frontend Tests
+
 ```bash
-cd MovieBookingFrontend
+cd MovieReviewFrontend
 
 # Run all tests
 npm test
@@ -210,46 +246,57 @@ npm test -- --ci --watchAll=false
 
 ## 📁 Project Structure
 
-```
-MovieBookingApp/
+```txt
+CinemaVerse/
 ├── src/main/java/com/moviebookingapp/
 │   ├── controller/          # REST controllers
 │   ├── model/              # Entity models
 │   ├── repository/         # Data repositories
 │   ├── service/            # Business logic
+│   │   └── impl/           # Service implementations
 │   ├── security/           # Security configuration
 │   ├── config/             # Application configuration
 │   └── MovieBookingAppApplication.java
 ├── src/main/resources/
 │   ├── application.properties
+│   ├── application-production.properties
 │   └── static/
 ├── src/test/               # Backend tests
-├── MovieBookingFrontend/
+├── MovieReviewFrontend/
 │   ├── src/
 │   │   ├── components/     # React components
 │   │   ├── services/       # API services
 │   │   ├── types/          # TypeScript interfaces
 │   │   └── App.tsx
 │   ├── public/             # Static assets
+│   ├── .env.production     # Production environment
 │   └── package.json
-├── pom.xml                 # Maven configuration
-└── README.md
+├── scripts/                # Deployment scripts
+│   └── deploy.sh           # Render deployment prep
+├── docker-compose.yml      # Docker configuration
+├── Dockerfile.render       # Render Docker build
+├── render.yaml             # Render Blueprint config
+├── pom.xml                # Maven configuration
+├── RENDER_DEPLOYMENT.md    # Render deployment guide
+├── DEPLOYMENT.md          # General deployment guide
+└── README.md              # This file
 ```
 
 ## 🔧 Configuration
 
 ### Backend Configuration (`application.properties`)
+
 ```properties
 # Server Configuration
 server.port=8000
 
 # Database Configuration
-spring.data.mongodb.uri=mongodb://localhost:27017/MovieBookingApp
-spring.data.mongodb.database=MovieBookingApp
+spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/CinemaVerse
+spring.data.mongodb.database=CinemaVerse
 
 # JWT Configuration
-moviebookingapp.app.jwtSecret=yourSecretKey
-moviebookingapp.app.jwtExpirationMs=86400000
+cinemaverse.app.jwtSecret=CinemaVerseSecretKeyForJwtTokenGenerationThatIsLongEnoughForHMAC256
+cinemaverse.app.jwtExpirationMs=86400000
 
 # Logging
 logging.level.com.moviebookingapp=DEBUG
@@ -260,7 +307,9 @@ springdoc.api-docs.path=/api-docs
 ```
 
 ### Frontend Configuration
+
 Environment variables can be set in `.env` file:
+
 ```env
 REACT_APP_API_BASE_URL=http://localhost:8000
 REACT_APP_ENV=development
@@ -277,23 +326,46 @@ REACT_APP_ENV=development
 
 ## 🚀 Deployment
 
+### 🎯 Render.com Deployment (Recommended)
+
+Deploy CinemaVerse to Render.com's free tier with our comprehensive guide:
+
+```bash
+# Quick deployment preparation
+./scripts/deploy.sh
+
+# Follow detailed guide
+cat RENDER_DEPLOYMENT.md
+```
+
+**📋 Deployment Checklist:**
+- [ ] MongoDB Atlas database setup
+- [ ] GitHub repository configured
+- [ ] Render.com Blueprint deployment
+- [ ] Environment variables configured
+- [ ] Frontend-backend connectivity verified
+
+**🔗 Live Demo:** [Coming Soon]
+
 ### Docker Deployment
+
 ```bash
 # Build backend image
-docker build -t moviebooking-backend .
+docker build -f Dockerfile.render -t cinemaverse-backend .
 
-# Build frontend image
-cd MovieBookingFrontend
-docker build -t moviebooking-frontend .
+# Build frontend image  
+cd MovieReviewFrontend
+docker build -t cinemaverse-frontend .
 
 # Run with docker-compose
 docker-compose up -d
 ```
 
-### Cloud Deployment
-- **Backend**: Deploy to AWS, Heroku, or Azure
-- **Frontend**: Deploy to Netlify, Vercel, or AWS S3
-- **Database**: Use MongoDB Atlas for cloud database
+### Alternative Cloud Platforms
+
+- **Backend**: AWS, Heroku, Azure, Railway
+- **Frontend**: Netlify, Vercel, AWS S3, Firebase Hosting  
+- **Database**: MongoDB Atlas (recommended), AWS DocumentDB
 
 ## 🤝 Contributing
 
@@ -307,17 +379,57 @@ docker-compose up -d
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## 👥 Authors
+## 🎬 Live Demo & Screenshots
 
-- **Bhumika Agarwal** - *Initial work* - [GitHub](https://github.com/bhumika-aga)
+*Coming Soon - Experience CinemaVerse in action with our live demo and visual showcase*
 
-## 🙏 Acknowledgments
+## 🔮 Roadmap
 
-- IMDB for design inspiration
-- Spring Boot community for excellent documentation
-- Material-UI team for beautiful components
-- React team for the amazing framework
+### Phase 1 (Current) ✅
+- Core movie browsing and authentication
+- IMDB-inspired UI/UX design
+- MongoDB integration with sample data
+
+### Phase 2 (Planned) 🚧
+- Real-time ticket booking system
+- Payment gateway integration
+- Advanced movie search and filtering
+- User reviews and ratings
+
+### Phase 3 (Future) 🌟
+- AI-powered movie recommendations
+- Social features and user profiles
+- Mobile app (React Native)
+- Multi-language support
+
+## 👥 Authors & Contributors
+
+- **Bhumika Agarwal** - *Project Creator & Lead Developer* - [GitHub](https://github.com/bhumika-aga)
+
+*We welcome contributions! See our [Contributing Guidelines](#-contributing) to get started.*
+
+## 🙏 Acknowledgments & Inspiration
+
+- **IMDB** - For setting the gold standard in movie database UI/UX design
+- **Spring Boot Community** - For comprehensive documentation and best practices
+- **Material-UI Team** - For creating beautiful, accessible React components
+- **React Team** - For revolutionizing frontend development
+- **MongoDB** - For flexible, scalable database solutions
+- **Open Source Community** - For the amazing ecosystem of tools and libraries
+
+## 📊 Project Stats
+
+![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.8-green?style=flat-square&logo=spring)
+![React](https://img.shields.io/badge/React-19.1.1-blue?style=flat-square&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue?style=flat-square&logo=typescript)
+![Material-UI](https://img.shields.io/badge/Material--UI-5.15.0-blue?style=flat-square&logo=mui)
+![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green?style=flat-square&logo=mongodb)
 
 ---
 
-**Happy Coding! 🎬✨**
+**⭐ Star this repository if you find it helpful!**
+
+*Built with ❤️ and lots of ☕ by developers who love great cinema experiences*
+
+**Happy Coding & Happy Watching! 🎬✨**
