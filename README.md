@@ -160,7 +160,7 @@ npm install
 ```bash
 # From project root
 mvn spring-boot:run
-# Backend runs on http://localhost:8000
+# Backend runs on http://localhost:8080
 ```
 
 #### Start Frontend (Terminal 2)
@@ -169,7 +169,7 @@ mvn spring-boot:run
 # From MovieReviewFrontend directory
 cd MovieReviewFrontend
 npm start
-# Frontend runs on http://localhost:3001 (if 3000 is in use)
+# Frontend runs on http://localhost:3000
 ```
 
 ### Method 2: Production Build
@@ -326,19 +326,46 @@ REACT_APP_ENV=development
 
 ## 🚀 Deployment
 
-### 🎯 Render.com Deployment (Recommended)
+### 🏠 Manual Deployment (Local/Server)
 
-Deploy CinemaVerse to Render.com's free tier with our comprehensive guide:
+Run CinemaVerse on your local machine or server:
 
 ```bash
-# Quick deployment preparation
+# Quick setup guide
+cat MANUAL_DEPLOYMENT.md
+
+# Automated preparation
+./scripts/deploy.sh
+```
+
+**📋 Manual Deployment Checklist:**
+
+- [ ] Java 17+ and Node.js 18+ installed
+- [ ] MongoDB running (local or Atlas)
+- [ ] Backend running on port 8080
+- [ ] Frontend running on port 3000
+- [ ] Database initialized with sample data
+
+**🔗 Access Points:**
+
+- Frontend: <http://localhost:3000>
+- Backend: <http://localhost:8080>
+- API Docs: <http://localhost:8080/swagger-ui.html>
+
+### 🎯 Render.com Deployment (Cloud)
+
+Deploy CinemaVerse to Render.com's free tier:
+
+```bash
+# Prepare for cloud deployment
 ./scripts/deploy.sh
 
-# Follow detailed guide
+# Follow cloud deployment guide  
 cat RENDER_DEPLOYMENT.md
 ```
 
 **📋 Deployment Checklist:**
+
 - [ ] MongoDB Atlas database setup
 - [ ] GitHub repository configured
 - [ ] Render.com Blueprint deployment
@@ -379,24 +406,23 @@ docker-compose up -d
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## 🎬 Live Demo & Screenshots
-
-*Coming Soon - Experience CinemaVerse in action with our live demo and visual showcase*
-
 ## 🔮 Roadmap
 
 ### Phase 1 (Current) ✅
+
 - Core movie browsing and authentication
 - IMDB-inspired UI/UX design
 - MongoDB integration with sample data
 
 ### Phase 2 (Planned) 🚧
+
 - Real-time ticket booking system
 - Payment gateway integration
 - Advanced movie search and filtering
 - User reviews and ratings
 
 ### Phase 3 (Future) 🌟
+
 - AI-powered movie recommendations
 - Social features and user profiles
 - Mobile app (React Native)
@@ -430,6 +456,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 **⭐ Star this repository if you find it helpful!**
 
-*Built with ❤️ and lots of ☕ by developers who love great cinema experiences*
+Built with ❤️ and lots of ☕ by developers who love great cinema experiences
 
-**Happy Coding & Happy Watching! 🎬✨**
+Happy Coding & Happy Watching! 🎬✨

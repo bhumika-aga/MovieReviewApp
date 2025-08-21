@@ -33,7 +33,6 @@ public class DataInitializationService implements CommandLineRunner {
         } catch (Exception e) {
             System.err.println("⚠️  Warning: Could not initialize MongoDB data. Using mock service as fallback.");
             System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
         }
     }
     

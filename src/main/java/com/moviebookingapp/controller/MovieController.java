@@ -53,16 +53,17 @@ public class MovieController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<String> changePassword(@RequestBody LoginRequest request,
                                                  @PathVariable("username") String username) {
-        // log.debug("Forgot Password accessed by " + request.getUsername());
         Optional<User> newUser = userRepository.findByUsername(username);
-        User availableUser = newUser.get();
+        User availableUser = new User();
+        if (newUser.isPresent()) {
+            availableUser = newUser.get();
+        }
         User updatedUser = new User(username, availableUser.getFirstName(), availableUser.getLastName(),
             availableUser.getEmail(), availableUser.getContactNumber(),
             encoder.encode(availableUser.getPassword()));
         updatedUser.setUserId(availableUser.getUserId());
         updatedUser.setRole(availableUser.getRole());
         userRepository.save(updatedUser);
-        // log.debug(request.getUsername() + " has changed the password successfully");
         return new ResponseEntity<>("Password changed successfully!", HttpStatus.OK);
     }
     
@@ -70,13 +71,10 @@ public class MovieController {
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "search all movies")
     public ResponseEntity<List<Movie>> getAllMovies() {
-        // log.debug("All Movies are accessible here!");
         List<Movie> allMovies = movieService.getAllMovies();
         if (allMovies.isEmpty()) {
-            // log.debug("No Movies are available currently!");
             throw new MovieNotFoundException("No Movies Available!");
         }
-        // log.debug("Available Movies Listed!");
         return new ResponseEntity<>(allMovies, HttpStatus.FOUND);
     }
     
@@ -84,14 +82,11 @@ public class MovieController {
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Search Movies By Name")
     public ResponseEntity<List<Movie>> getMovieByName(@PathVariable("movieName") String movieName) {
-        // log.debug("Search a movie by its name!");
         List<Movie> allMovies = movieService.getMovieByName(movieName);
         if (allMovies.isEmpty()) {
-            // log.debug("No movies found: " + movieName);
             throw new MovieNotFoundException("Movie not found: " + movieName);
         }
-        // log.debug("Movie with title: " + movieName + " found!");
-        return new ResponseEntity<>(allMovies, HttpStatus.OK);
+        return ResponseEntity.ok(allMovies);
     }
     
     @PostMapping("/{movieName}/add")
@@ -99,34 +94,22 @@ public class MovieController {
     @Operation(summary = "book ticket")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> bookTickets(@RequestBody Ticket ticket, @PathVariable("movieName") String movieName) {
-        // log.debug(ticket.getUsername() + " entered to book tickets!");
         List<Ticket> allTickets = movieService.findSeats(movieName, ticket.getTheatreName());
         for (Ticket each : allTickets) {
             for (int i = 0; i < ticket.getNoOfTickets(); i++) {
                 if (each.getSeatNumber().contains(ticket.getSeatNumber().get(i))) {
-                    // log.debug("Seat is already booked!");
                     throw new SeatAlreadyBookedException(
                         "Seat number " + ticket.getSeatNumber().get(i) + " is already booked!");
                 }
             }
         }
         
-        if (movieService.findAvailableTickets(movieName, ticket.getTheatreName()).get(0).getTicketsAvailable() >= ticket
-                                                                                                                      .getNoOfTickets()) {
-            // log.info("Available tickets = " +
-            // movieService.findAvailableTickets(movieName,
-            // ticket.getTheatreName()).get(0).getTicketsAvailable());
+        if (movieService.findAvailableTickets(movieName, ticket.getTheatreName()).get(0).getTicketsAvailable() >= ticket.getNoOfTickets()) {
             movieService.addTicket(ticket);
-            // log.debug(ticket.getUsername() + "booked" + ticket.getNoOfTickets() + "
-            // tickets!");
-            // template.send(topic.name(), "Movie ticket booked! " + "\nBooking Details: " +
-            // ticket);
             movieService.updateAvailableTickets(movieName, ticket.getTheatreName(), ticket.getNoOfTickets());
-            return new ResponseEntity<>("Tickets Booked Successfully! Seat Numbers are: " + ticket.getSeatNumber(),
-                HttpStatus.OK);
+            return ResponseEntity.ok("Tickets Booked Successfully! Seat Numbers are: " + ticket.getSeatNumber());
         }
         
-        // log.debug("All tickets are sold out!");
         return new ResponseEntity<>("\"All Tickets Sold Out!\"", HttpStatus.OK);
     }
     
@@ -135,7 +118,7 @@ public class MovieController {
     @Operation(summary = "Get all booked tickets(Admin Only)")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Ticket>> getAllBookedTickets(@PathVariable("movieName") String movieName) {
-        return new ResponseEntity<List<Ticket>>(movieService.getAllBookedTickets(movieName), HttpStatus.OK);
+        return ResponseEntity.ok(movieService.getAllBookedTickets(movieName));
     }
     
     @PutMapping("/{movieName}/update/{ticketId}")
@@ -174,8 +157,6 @@ public class MovieController {
             throw new MovieNotFoundException("No movies available with the name: " + movieName);
         }
         movieService.deleteMovieByName(movieName);
-        // template.send(topic.name(), "Movie Deleted By Admin" + movieName + " is
-        // available no more!");
         return new ResponseEntity<>("Movie deleted successfully!", HttpStatus.OK);
     }
 }
