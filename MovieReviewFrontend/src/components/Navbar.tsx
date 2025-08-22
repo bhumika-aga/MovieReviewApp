@@ -18,33 +18,22 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { user, isAuthenticated, logout } = useAuth();
 
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    const user =
-      sessionStorage.getItem("userName") || sessionStorage.getItem("loginId");
-    setIsLoggedIn(!!token);
-    setUserName(user || "");
-  }, [location]);
-
   const handleLogout = (): void => {
-    sessionStorage.clear();
-    setIsLoggedIn(false);
-    setUserName("");
+    logout();
     setAnchorEl(null);
-    navigate("/login");
+    navigate("/");
   };
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>): void => {
@@ -62,16 +51,19 @@ const Navbar: React.FC = () => {
 
   const menuItems = [
     { label: "Movies", path: "/movieList", icon: <MovieIcon /> },
-    ...(isLoggedIn
+    ...(isAuthenticated
       ? [{ label: "Theatres", path: "/theater-list", icon: <TheaterIcon /> }]
       : []),
   ];
 
-  const authButtons = isLoggedIn ? (
+  const authButtons = isAuthenticated ? (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
       <Typography variant="body1" sx={{ display: { xs: "none", sm: "block" } }}>
         Welcome,{" "}
-        <span style={{ color: theme.palette.primary.main }}>{userName}</span>!
+        <span style={{ color: theme.palette.primary.main }}>
+          {user?.username}
+        </span>
+        !
       </Typography>
       <Button
         color="inherit"
@@ -196,13 +188,13 @@ const Navbar: React.FC = () => {
               ))}
 
               {/* Mobile Auth Menu Items */}
-              {isLoggedIn ? (
+              {isAuthenticated ? (
                 <>
                   <MenuItem
                     disabled
                     sx={{ fontSize: "0.875rem", color: "text.secondary" }}
                   >
-                    Welcome, {userName}!
+                    Welcome, {user?.username}!
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

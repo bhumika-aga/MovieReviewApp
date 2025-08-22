@@ -16,8 +16,8 @@ public class Movie {
     private ObjectId movieId;
     private String movieName;
     private String theatreName;
-    private Integer ticketsAvailable;
-    private String ticketStatus;
+    private Integer reviewCount;
+    private String status;
     private String moviePoster;
     private String description;
     private String director;
@@ -29,47 +29,50 @@ public class Movie {
     private LocalDate releaseDate;
     private String certificate;
     private String trailerUrl;
+    private String bookMyShowUrl;
+    private Integer ticketsAvailable;
+    private String ticketStatus;
     
     public Movie() {
     }
     
-    public Movie(String movieName, String theatreName, Integer ticketsAvailable, String ticketStatus) {
+    public Movie(String movieName, String theatreName, Integer reviewCount, String status) {
         this.movieName = movieName;
         this.theatreName = theatreName;
-        this.ticketsAvailable = ticketsAvailable;
-        this.ticketStatus = ticketStatus;
+        this.reviewCount = reviewCount;
+        this.status = status;
     }
     
-    public Movie(String movieName, String theatreName, Integer ticketsAvailable) {
+    public Movie(String movieName, String theatreName, Integer reviewCount) {
         this.movieName = movieName;
         this.theatreName = theatreName;
-        this.ticketsAvailable = ticketsAvailable;
+        this.reviewCount = reviewCount;
     }
     
-    public Movie(ObjectId movieId, String movieName, String theatreName, Integer ticketsAvailable) {
+    public Movie(ObjectId movieId, String movieName, String theatreName, Integer reviewCount) {
         this.movieId = movieId;
         this.movieName = movieName;
         this.theatreName = theatreName;
-        this.ticketsAvailable = ticketsAvailable;
+        this.reviewCount = reviewCount;
     }
     
-    public Movie(ObjectId movieId, String movieName, String theatreName, Integer ticketsAvailable,
-                 String ticketStatus) {
+    public Movie(ObjectId movieId, String movieName, String theatreName, Integer reviewCount,
+                 String status) {
         this.movieId = movieId;
         this.movieName = movieName;
         this.theatreName = theatreName;
-        this.ticketsAvailable = ticketsAvailable;
-        this.ticketStatus = ticketStatus;
+        this.reviewCount = reviewCount;
+        this.status = status;
     }
     
-    public Movie(String movieName, String theatreName, Integer ticketsAvailable, String ticketStatus,
+    public Movie(String movieName, String theatreName, Integer reviewCount, String status,
                  String moviePoster, String description, String director, List<String> cast, String genre,
                  String language, Integer duration, Double rating, LocalDate releaseDate, String certificate,
                  String trailerUrl) {
         this.movieName = movieName;
         this.theatreName = theatreName;
-        this.ticketsAvailable = ticketsAvailable;
-        this.ticketStatus = ticketStatus;
+        this.reviewCount = reviewCount;
+        this.status = status;
         this.moviePoster = moviePoster;
         this.description = description;
         this.director = director;
@@ -81,5 +84,27 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.certificate = certificate;
         this.trailerUrl = trailerUrl;
+    }
+    
+    public Movie(String movieName, String theatreName, Integer reviewCount, String status,
+                 String moviePoster, String description, String director, List<String> cast, String genre,
+                 String language, Integer duration, Double rating, LocalDate releaseDate, String certificate,
+                 String trailerUrl, String bookMyShowUrl) {
+        this.movieName = movieName;
+        this.theatreName = theatreName;
+        this.reviewCount = reviewCount;
+        this.status = status;
+        this.moviePoster = moviePoster;
+        this.description = description;
+        this.director = director;
+        this.cast = cast;
+        this.genre = genre;
+        this.language = language;
+        this.duration = duration;
+        this.rating = rating;
+        this.releaseDate = releaseDate;
+        this.certificate = certificate;
+        this.trailerUrl = trailerUrl;
+        this.bookMyShowUrl = bookMyShowUrl;
     }
 }

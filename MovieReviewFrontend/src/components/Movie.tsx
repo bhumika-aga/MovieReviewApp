@@ -2,7 +2,6 @@ import {
   Delete as DeleteIcon,
   Edit as EditIcon,
   PlayArrow as PlayIcon,
-  EventSeat as SeatIcon,
   Star as StarIcon,
   AccessTime as TimeIcon,
 } from "@mui/icons-material";
@@ -21,9 +20,10 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import PosterService from "../services/PosterService";
 import { Movie as MovieType } from "../types/Movie";
 
 interface MovieProps {
@@ -36,9 +36,11 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
   const navigate = useNavigate();
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [imageError, setImageError] = useState<boolean>(false);
+  const [posterUrl, setPosterUrl] = useState<string>(movie.moviePoster || "");
 
   const handleBookTickets = (): void => {
-    navigate("/theatre-list", { state: { movie } });
+    navigate(`/movie/${movie.movieName.toLowerCase().replace(/\s+/g, "-")}`);
   };
 
   const handleEditMovie = (): void => {
@@ -73,14 +75,69 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
   };
 
   const getImageSrc = (): string => {
-    if (movie.moviePoster) {
-      if (movie.moviePoster.startsWith("http")) {
-        return movie.moviePoster;
-      }
-      return `data:image/jpeg;base64,${movie.moviePoster}`;
+    if (imageError) {
+      // Create a simple SVG placeholder as a data URL using encodeURIComponent
+      const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450" viewBox="0 0 300 450">
+        <rect width="300" height="450" fill="#1a1a1a"/>
+        <circle cx="150" cy="180" r="40" fill="#f5c518"/>
+        <rect x="130" y="160" width="40" height="30" fill="#1a1a1a"/>
+        <rect x="135" y="175" width="8" height="8" fill="#1a1a1a"/>
+        <rect x="157" y="175" width="8" height="8" fill="#1a1a1a"/>
+        <text x="150" y="250" font-family="Arial, sans-serif" font-size="14" fill="#f5c518" text-anchor="middle">No Image</text>
+        <text x="150" y="270" font-family="Arial, sans-serif" font-size="14" fill="#f5c518" text-anchor="middle">Available</text>
+      </svg>`;
+      return `data:image/svg+xml,${encodeURIComponent(svgContent)}`;
     }
-    return "/fbf435.jpg";
+
+    // Use the posterUrl state which might be updated by PosterService
+    if (posterUrl) {
+      if (posterUrl.startsWith("http")) {
+        return posterUrl;
+      }
+      return `data:image/jpeg;base64,${posterUrl}`;
+    }
+
+    // Default fallback for movies without posters
+    const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450" viewBox="0 0 300 450">
+      <rect width="300" height="450" fill="#1a1a1a"/>
+      <circle cx="150" cy="180" r="40" fill="#f5c518"/>
+      <rect x="130" y="160" width="40" height="30" fill="#1a1a1a"/>
+      <rect x="135" y="175" width="8" height="8" fill="#1a1a1a"/>
+      <rect x="157" y="175" width="8" height="8" fill="#1a1a1a"/>
+      <text x="150" y="250" font-family="Arial, sans-serif" font-size="14" fill="#f5c518" text-anchor="middle">No Image</text>
+      <text x="150" y="270" font-family="Arial, sans-serif" font-size="14" fill="#f5c518" text-anchor="middle">Available</text>
+    </svg>`;
+    return `data:image/svg+xml,${encodeURIComponent(svgContent)}`;
   };
+
+  const handleImageError = (): void => {
+    setImageError(true);
+  };
+
+  // Fetch better poster URL on component mount
+  useEffect(() => {
+    const fetchPosterUrl = async () => {
+      try {
+        const year = movie.releaseDate
+          ? new Date(movie.releaseDate).getFullYear().toString()
+          : undefined;
+        const betterUrl = await PosterService.getPosterUrl(
+          movie.movieName,
+          movie.moviePoster,
+          year
+        );
+
+        if (betterUrl && betterUrl !== movie.moviePoster) {
+          setPosterUrl(betterUrl);
+          setImageError(false); // Reset error state when we get a new URL
+        }
+      } catch (error) {
+        console.error("Error fetching poster URL:", error);
+      }
+    };
+
+    fetchPosterUrl();
+  }, [movie.movieName, movie.moviePoster, movie.releaseDate]);
 
   return (
     <>
@@ -103,6 +160,7 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
             height="300"
             image={getImageSrc()}
             alt={movie.movieName}
+            onError={handleImageError}
             sx={{
               objectFit: "cover",
               transition: "transform 0.3s ease",
@@ -251,24 +309,23 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
             )}
           </Box>
 
-          {/* Theatre and Seats Info */}
+          {/* Theatre and Review Info */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
               Theatre: {movie.theatreName}
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <SeatIcon
+              <StarIcon
                 sx={{ fontSize: "1rem", mr: 0.5, color: "text.secondary" }}
               />
               <Typography
                 variant="body2"
                 sx={{
-                  color:
-                    movie.ticketsAvailable > 0 ? "success.main" : "error.main",
+                  color: "primary.main",
                   fontWeight: "medium",
                 }}
               >
-                {movie.ticketsAvailable} seats available
+                {movie.reviewCount} reviews • {movie.status}
               </Typography>
             </Box>
           </Box>
@@ -296,11 +353,23 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
               variant="contained"
               color="primary"
               onClick={handleBookTickets}
-              disabled={movie.ticketsAvailable === 0}
               sx={{ mb: isAdmin ? 1 : 0, py: 1 }}
             >
-              {movie.ticketsAvailable > 0 ? "Book Tickets" : "Sold Out"}
+              Read Reviews
             </Button>
+
+            {movie.bookMyShowUrl && (
+              <Button
+                fullWidth
+                variant="outlined"
+                color="secondary"
+                onClick={() => window.open(movie.bookMyShowUrl, "_blank")}
+                sx={{ mb: isAdmin ? 1 : 0, py: 0.75, mt: 1 }}
+                size="small"
+              >
+                Book on BookMyShow
+              </Button>
+            )}
 
             {isAdmin && (
               <Box sx={{ display: "flex", gap: 1 }}>

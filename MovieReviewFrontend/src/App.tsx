@@ -4,10 +4,12 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
+import MovieDetail from "./components/MovieDetail";
 import MovieList from "./components/MovieList";
 import Navbar from "./components/Navbar";
 import Registration from "./components/Registration";
 import TheaterList from "./components/TheatreList";
+import { AuthProvider } from "./contexts/AuthContext";
 
 // IMDB-like dark theme
 const theme = createTheme({
@@ -121,19 +123,24 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ minHeight: "100vh", backgroundColor: "background.default" }}>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route index element={<MovieList />} />
-            <Route path="/" element={<MovieList />} />
-            <Route path="/movieList" element={<MovieList />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Registration />} />
-            <Route path="/theater-list" element={<TheaterList />} />
-          </Routes>
-        </BrowserRouter>
-      </Box>
+      <AuthProvider>
+        <Box sx={{ minHeight: "100vh", backgroundColor: "background.default" }}>
+          <BrowserRouter
+            future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+          >
+            <Navbar />
+            <Routes>
+              <Route index element={<MovieList />} />
+              <Route path="/" element={<MovieList />} />
+              <Route path="/movieList" element={<MovieList />} />
+              <Route path="/movie/:movieName" element={<MovieDetail />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Registration />} />
+              <Route path="/theater-list" element={<TheaterList />} />
+            </Routes>
+          </BrowserRouter>
+        </Box>
+      </AuthProvider>
     </ThemeProvider>
   );
 };

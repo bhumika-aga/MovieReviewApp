@@ -31,3 +31,24 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Log Files ###
+*.log
+backend.log
+movieApp.log
+
+### Environment Variables ###
+.env.local
+.env.development
+.env.test
+.env.production
+
+### Node Modules ###
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Frontend Build ###
+MovieReviewFrontend/build/
+MovieReviewFrontend/dist/

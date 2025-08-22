@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +65,7 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
         String errorMessage = "Error: Role not found!";
         
-        if (strRoles.isEmpty()) {
+        if (strRoles == null || strRoles.isEmpty()) {
             Role userRole = roleRepository.findByRole(UserRole.USER)
                                 .orElseThrow(() -> new RuntimeException(errorMessage));
             roles.add(userRole);
@@ -106,7 +107,7 @@ public class AuthController {
         String jwt = utils.generateJwtToken(auth);
         
         UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).toList();
+        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUserId(), userDetails.getUsername(),
             userDetails.getEmail(), roles));

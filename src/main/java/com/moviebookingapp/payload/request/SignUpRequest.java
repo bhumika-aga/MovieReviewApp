@@ -2,6 +2,7 @@ package com.moviebookingapp.payload.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -25,7 +26,7 @@ public class SignUpRequest {
     @Email
     private String email;
     
-    @NotBlank
+    @NotNull
     private Long contactNumber;
     
     @NotBlank
@@ -35,7 +36,7 @@ public class SignUpRequest {
     private Set<String> role;
     
     public SignUpRequest(@NotBlank @Size(min = 3, max = 20) String username, @NotBlank String firstName,
-                         @NotBlank String lastName, @NotBlank @Size(max = 50) @Email String email, @NotBlank Long contactNumber,
+                         @NotBlank String lastName, @NotBlank @Size(max = 50) @Email String email, @NotNull Long contactNumber,
                          @NotBlank @Size(min = 8, max = 20) String password, Set<String> role) {
         this.username = username;
         this.firstName = firstName;

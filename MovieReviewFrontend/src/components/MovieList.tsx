@@ -197,8 +197,15 @@ const MovieList: React.FC = () => {
         </Box>
       ) : (
         <Grid container spacing={3}>
-          {filteredMovies.map((movie) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={movie.movieId}>
+          {filteredMovies.map((movie, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              key={`${movie.movieName}-${movie.theatreName}-${index}`}
+            >
               <MovieComponent
                 movie={movie}
                 onDelete={deleteMovie}

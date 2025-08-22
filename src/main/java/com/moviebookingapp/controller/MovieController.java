@@ -75,7 +75,7 @@ public class MovieController {
         if (allMovies.isEmpty()) {
             throw new MovieNotFoundException("No Movies Available!");
         }
-        return new ResponseEntity<>(allMovies, HttpStatus.FOUND);
+        return new ResponseEntity<>(allMovies, HttpStatus.OK);
     }
     
     @GetMapping("/movies/search/{movieName}")

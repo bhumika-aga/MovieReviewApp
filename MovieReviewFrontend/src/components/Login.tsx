@@ -17,20 +17,24 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
-import { LoginRequest } from "../types/User";
+import { useAuth } from "../contexts/AuthContext";
+
+interface LoginRequest {
+  username: string;
+  password: string;
+}
 
 // Validation schema
 const loginSchema = yup.object({
-  loginId: yup
+  username: yup
     .string()
-    .required("Login ID is required")
-    .min(3, "Login ID must be at least 3 characters"),
+    .required("Username is required")
+    .min(3, "Username must be at least 3 characters"),
   password: yup
     .string()
     .required("Password is required")
@@ -39,57 +43,43 @@ const loginSchema = yup.object({
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+
+  // Get the intended destination or default to home
+  const from = (location.state as { from?: Location })?.from?.pathname || "/";
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginRequest>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      loginId: "",
+      username: "",
       password: "",
     },
   });
 
   const onSubmit = async (data: LoginRequest): Promise<void> => {
-    setLoading(true);
     setError("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1.0/moviebooking/login",
-        data
-      );
-
-      const { token, type, loginId, firstName, lastName, email, roles } =
-        response.data;
-
-      // Store user data in session storage
-      sessionStorage.setItem("token", token);
-      sessionStorage.setItem("tokenType", type);
-      sessionStorage.setItem("loginId", loginId);
-      sessionStorage.setItem("userName", `${firstName} ${lastName}`);
-      sessionStorage.setItem("userEmail", email);
-      sessionStorage.setItem("userType", roles[0]);
-
-      // Navigate to movies page
-      navigate("/movieList");
+      await login(data.username, data.password);
+      // Navigate to intended destination or home
+      navigate(from, { replace: true });
     } catch (error: any) {
       if (error.response?.status === 401) {
         setError(
-          "Invalid credentials. Please check your login ID and password."
+          "Invalid credentials. Please check your username and password."
         );
       } else if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
         setError("Login failed. Please try again later.");
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -136,17 +126,17 @@ const Login: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             <Controller
-              name="loginId"
+              name="username"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
                   fullWidth
-                  label="Login ID"
+                  label="Username"
                   variant="outlined"
-                  error={!!errors.loginId}
-                  helperText={errors.loginId?.message}
-                  disabled={loading}
+                  error={!!errors.username}
+                  helperText={errors.username?.message}
+                  disabled={isSubmitting}
                 />
               )}
             />
@@ -163,14 +153,14 @@ const Login: React.FC = () => {
                   variant="outlined"
                   error={!!errors.password}
                   helperText={errors.password?.message}
-                  disabled={loading}
+                  disabled={isSubmitting}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           onClick={togglePasswordVisibility}
                           edge="end"
-                          disabled={loading}
+                          disabled={isSubmitting}
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -187,13 +177,13 @@ const Login: React.FC = () => {
               variant="contained"
               color="primary"
               size="large"
-              disabled={loading}
+              disabled={isSubmitting}
               startIcon={
-                loading ? <CircularProgress size={20} /> : <LoginIcon />
+                isSubmitting ? <CircularProgress size={20} /> : <LoginIcon />
               }
               sx={{ py: 1.5, mt: 2 }}
             >
-              {loading ? "Signing In..." : "Sign In"}
+              {isSubmitting ? "Signing In..." : "Sign In"}
             </Button>
           </Box>
         </form>

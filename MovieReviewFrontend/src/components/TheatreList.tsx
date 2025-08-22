@@ -43,15 +43,18 @@ const TheatreList: React.FC = () => {
             <Box>
               <Typography variant="h6">{movie.theatreName}</Typography>
               <Typography variant="body2" color="text.secondary">
-                {movie.ticketsAvailable} seats available
+                {movie.reviewCount} reviews • {movie.status}
               </Typography>
             </Box>
             <Button
               variant="contained"
               color="primary"
-              disabled={movie.ticketsAvailable === 0}
+              onClick={() =>
+                movie.bookMyShowUrl &&
+                window.open(movie.bookMyShowUrl, "_blank")
+              }
             >
-              Book Now
+              Book on BookMyShow
             </Button>
           </Box>
         </Paper>

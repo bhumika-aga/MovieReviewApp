@@ -2,8 +2,8 @@ export interface Movie {
   movieId?: string;
   movieName: string;
   theatreName: string;
-  ticketsAvailable: number;
-  ticketStatus: string;
+  reviewCount: number;
+  status: string;
   moviePoster?: string;
   description?: string;
   director?: string;
@@ -15,13 +15,14 @@ export interface Movie {
   releaseDate?: string;
   certificate?: string;
   trailerUrl?: string;
+  bookMyShowUrl?: string;
 }
 
 export interface MovieFormData {
   movieName: string;
   theatreName: string;
-  ticketsAvailable: number;
-  ticketStatus: string;
+  reviewCount: number;
+  status: string;
   moviePoster?: string;
   description?: string;
   director?: string;
@@ -33,4 +34,5 @@ export interface MovieFormData {
   releaseDate?: string;
   certificate?: string;
   trailerUrl?: string;
+  bookMyShowUrl?: string;
 }

@@ -2,6 +2,7 @@ package com.moviebookingapp.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -38,7 +39,7 @@ public class User {
     @Size(min = 8)
     private String password;
     
-    @NotBlank
+    @NotNull
     private Long contactNumber;
     
     @DBRef
@@ -71,7 +72,7 @@ public class User {
     
     public User(ObjectId userId, @NotBlank @Size(max = 20) String username, @NotBlank String firstName,
                 @NotBlank String lastName, @NotBlank @Size(max = 50) @Email String email,
-                @NotBlank @Size(min = 8) String password, @NotBlank Long contactNumber, Set<Role> role) {
+                @NotBlank @Size(min = 8) String password, @NotNull Long contactNumber, Set<Role> role) {
         this.userId = userId;
         this.username = username;
         this.firstName = firstName;

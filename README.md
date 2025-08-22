@@ -1,17 +1,17 @@
 # 🎬 CinemaVerse
 
-**Your Universe of Cinema Experiences** - A sophisticated, production-ready full-stack movie booking platform that combines the elegance of IMDB's design philosophy with modern web technologies. Built for movie enthusiasts and cinema operators, CinemaVerse delivers an immersive, responsive experience that makes discovering and booking movies effortless and enjoyable.
+**Your Universe of Cinema Reviews** - A sophisticated, production-ready full-stack movie review platform that combines the elegance of IMDB's design philosophy with modern web technologies. Built for movie enthusiasts and cinema critics, CinemaVerse delivers an immersive, responsive experience that makes discovering, reviewing, and booking movies effortless and enjoyable.
 
 ## 🌟 What Makes CinemaVerse Special?
 
-CinemaVerse isn't just another movie booking app—it's a carefully crafted digital cinema experience that bridges the gap between movie discovery and seamless booking. With its sleek IMDB-inspired dark theme, lightning-fast performance, and intuitive user interface, it transforms how users interact with cinema content.
+CinemaVerse isn't just another movie review app—it's a carefully crafted digital cinema experience that bridges the gap between movie discovery and comprehensive reviews. With its sleek IMDB-inspired dark theme, lightning-fast performance, and intuitive user interface, it transforms how users interact with cinema content.
 
 **🎯 Perfect For:**
 
-- 🎭 **Movie Enthusiasts** - Discover movies with rich metadata, ratings, and cast information
-- 🏢 **Cinema Operators** - Manage theaters, showtimes, and bookings efficiently  
+- 🎭 **Movie Enthusiasts** - Discover and review latest 2025 movies with rich metadata, ratings, and cast information
+- 🎬 **Cinema Critics** - Write and read comprehensive movie reviews with community engagement
 - 💻 **Developers** - Learn modern full-stack development with industry-standard technologies
-- 🚀 **Startups** - Launch your cinema business with a professional, scalable platform
+- 🚀 **Startups** - Launch your movie review platform with a professional, scalable solution
 
 ## 📋 Table of Contents
 
@@ -30,27 +30,32 @@ CinemaVerse isn't just another movie booking app—it's a carefully crafted digi
 
 ### 🎭 User Features
 
-- **Browse Movies**: View movies with IMDB-like card design
-- **Search & Filter**: Search movies by name and filter by genre
-- **Movie Details**: Comprehensive movie information (cast, director, rating, etc.)
-- **User Authentication**: Secure login and registration with JWT
-- **Ticket Booking**: Book tickets for available shows
-- **Responsive Design**: Mobile-first responsive UI
+- **Browse Latest Movies**: View 2025-2024 blockbusters with IMDB-like card design
+- **Smart Poster Management**: High-quality movie posters with fallback mechanisms
+- **Advanced Search & Filter**: Search movies by name with intelligent matching
+- **Rich Movie Details**: Comprehensive movie information with cast, director, ratings, duration, and more
+- **YouTube Trailer Integration**: Watch movie trailers directly in embedded modal players
+- **Complete Review System**: Write detailed movie reviews with star ratings and community engagement
+- **Secure Authentication**: JWT-based login, logout, and registration with form validation
+- **Review Interactions**: Mark reviews as helpful and engage with the community
+- **BookMyShow Integration**: Direct links to book tickets on BookMyShow
+- **Responsive Design**: Mobile-first responsive UI with dark IMDB-inspired theme
 
 ### 👨‍💼 Admin Features
 
-- **Movie Management**: Add, update, delete movies
-- **Theatre Management**: Manage theatre and show timings
-- **User Management**: Admin dashboard for user oversight
-- **Analytics**: View booking statistics and reports
+- **Complete Movie Management**: Add, update, delete movies with rich metadata and trailer URLs
+- **Review Moderation**: Monitor and manage user reviews and community interactions
+- **User Management**: Admin dashboard for user oversight and role management
+- **Analytics Dashboard**: Track review counts, ratings, and user engagement metrics
+- **Dynamic Data**: Automatic database initialization with latest 2025 movies
 
 ### 🎨 UI/UX Features
 
-- **IMDB-like Design**: Dark theme with yellow accents
-- **Material-UI Components**: Professional and polished interface
-- **Real-time Updates**: Dynamic content updates
-- **Loading States**: Smooth loading animations
-- **Error Handling**: User-friendly error messages
+- **Modern IMDB-inspired Design**: Dark theme with golden accents
+- **Material-UI v5**: Latest professional and polished components
+- **Smart Image Handling**: Poster fallback system with SVG placeholders
+- **Smooth Animations**: Loading states and hover effects
+- **Comprehensive Error Handling**: User-friendly error messages and recovery
 
 ## 🛠️ Tech Stack
 
@@ -76,10 +81,11 @@ CinemaVerse isn't just another movie booking app—it's a carefully crafted digi
 
 ### Additional Technologies
 
-- **Kafka** - Event streaming platform
+- **TMDb API** - The Movie Database integration for posters
 - **Swagger/OpenAPI** - API documentation
 - **Lombok** - Java boilerplate reduction
 - **BCrypt** - Password encryption
+- **Auto-initialization** - Smart database seeding with latest movies
 
 ## 🏗️ Architecture
 
@@ -199,20 +205,27 @@ npm run build
 ### Movie Endpoints
 
 - `GET /api/v1.0/moviebooking/all` - Get all movies
-- `GET /api/v1.0/moviebooking/movies/search/{movieName}` - Search movies
-- `POST /api/v1.0/moviebooking/addMovie` - Add movie (Admin)
-- `PUT /api/v1.0/moviebooking/update/{movieName}` - Update movie (Admin)
-- `DELETE /api/v1.0/moviebooking/delete/{movieName}` - Delete movie (Admin)
+- `GET /api/v1.0/moviebooking/movies/search/{movieName}` - Search movies by name
+- `POST /api/v1.0/moviebooking/addMovie` - Add movie (Admin only)
+- `PUT /api/v1.0/moviebooking/update/{movieName}` - Update movie (Admin only)
+- `DELETE /api/v1.0/moviebooking/delete/{movieName}` - Delete movie (Admin only)
+
+### Review Endpoints
+
+- `POST /api/v1.0/moviebooking/movies/{movieName}/reviews` - Add movie review (Auth required)
+- `GET /api/v1.0/moviebooking/movies/{movieName}/reviews` - Get all reviews for a movie
+- `GET /api/v1.0/moviebooking/users/{username}/reviews` - Get all reviews by a user
+- `PUT /api/v1.0/moviebooking/reviews/{reviewId}/helpful` - Mark review as helpful
 
 ### Booking Endpoints
 
-- `POST /api/v1.0/moviebooking/bookTicket` - Book tickets
-- `GET /api/v1.0/moviebooking/getAllBookedTickets` - Get all bookings
-- `GET /api/v1.0/moviebooking/getBookedTickets/{loginId}` - Get user bookings
+- `POST /api/v1.0/moviebooking/{movieName}/add` - Book movie tickets (Auth required)
+- `GET /api/v1.0/moviebooking/userTickets/{movieName}` - Get all booked tickets (Admin only)
+- `PUT /api/v1.0/moviebooking/{movieName}/update/{ticketId}` - Update ticket status (Admin only)
 
 ### Swagger Documentation
 
-Access interactive API docs at: `http://localhost:8000/swagger-ui.html`
+Access interactive API docs at: `http://localhost:8080/swagger-ui.html`
 
 ## 🧪 Testing
 
@@ -288,7 +301,7 @@ CinemaVerse/
 
 ```properties
 # Server Configuration
-server.port=8000
+server.port=8080
 
 # Database Configuration
 spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/CinemaVerse
@@ -311,9 +324,11 @@ springdoc.api-docs.path=/api-docs
 Environment variables can be set in `.env` file:
 
 ```env
-REACT_APP_API_BASE_URL=http://localhost:8000
+# API Configuration
+REACT_APP_API_BASE_URL=http://localhost:8080
 REACT_APP_ENV=development
 ```
+
 
 ## 🔒 Security Features
 
@@ -412,21 +427,27 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 - Core movie browsing and authentication
 - IMDB-inspired UI/UX design
-- MongoDB integration with sample data
+- MongoDB integration with latest 2025-2024 movies
+- TMDb API integration for poster management
+- BookMyShow integration for ticket booking
+- Review-focused user interface
+- Smart fallback systems and error handling
 
-### Phase 2 (Planned) 🚧
+### Phase 2 (Completed) ✅
 
-- Real-time ticket booking system
-- Payment gateway integration
-- Advanced movie search and filtering
-- User reviews and ratings
+- ✅ User-generated movie reviews and ratings with star system
+- ✅ Review voting and community engagement (helpful votes)
+- ✅ YouTube trailer integration with modal player
+- ✅ Complete authentication flow with JWT security
+- ✅ IMDb-like responsive UI with dark theme
 
 ### Phase 3 (Future) 🌟
 
-- AI-powered movie recommendations
+- AI-powered movie recommendations based on reviews
 - Social features and user profiles
 - Mobile app (React Native)
 - Multi-language support
+- Real-time notifications for new reviews
 
 ## 👥 Authors & Contributors
 

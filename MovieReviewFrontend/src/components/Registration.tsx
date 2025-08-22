@@ -18,20 +18,29 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
-import { SignUpRequest } from "../types/User";
+import { useAuth } from "../contexts/AuthContext";
+
+interface SignUpRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  contactNumber: number;
+}
 
 // Validation schema
 const registrationSchema = yup.object({
-  loginId: yup
+  username: yup
     .string()
-    .required("Login ID is required")
-    .min(3, "Login ID must be at least 3 characters"),
+    .required("Username is required")
+    .min(3, "Username must be at least 3 characters"),
   firstName: yup
     .string()
     .required("First name is required")
@@ -49,57 +58,57 @@ const registrationSchema = yup.object({
     .required("Password is required")
     .min(6, "Password must be at least 6 characters"),
   contactNumber: yup
-    .string()
+    .number()
     .required("Contact number is required")
-    .matches(/^[0-9]{10}$/, "Contact number must be 10 digits"),
+    .positive("Contact number must be positive")
+    .integer("Contact number must be a whole number")
+    .test("len", "Contact number must be 10 digits", (val) =>
+      val ? val.toString().length === 10 : false
+    ),
+  confirmPassword: yup
+    .string()
+    .required("Confirm password is required")
+    .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
 const Registration: React.FC = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<string>("");
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignUpRequest>({
     resolver: yupResolver(registrationSchema),
     defaultValues: {
-      loginId: "",
+      username: "",
       firstName: "",
       lastName: "",
       email: "",
       password: "",
-      contactNumber: "",
+      confirmPassword: "",
+      contactNumber: 0,
     },
   });
 
   const onSubmit = async (data: SignUpRequest): Promise<void> => {
-    setLoading(true);
     setError("");
     setSuccess("");
 
     try {
-      await axios.post(
-        "http://localhost:8080/api/v1.0/moviebooking/register",
-        data
-      );
-
-      setSuccess("Registration successful! Please login to continue.");
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      await register(data);
+      setSuccess("Registration successful! You are now logged in.");
+      navigate("/");
     } catch (error: any) {
       if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
         setError("Registration failed. Please try again later.");
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -152,17 +161,17 @@ const Registration: React.FC = () => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Controller
-                name="loginId"
+                name="username"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     fullWidth
-                    label="Login ID"
+                    label="Username"
                     variant="outlined"
-                    error={!!errors.loginId}
-                    helperText={errors.loginId?.message}
-                    disabled={loading}
+                    error={!!errors.username}
+                    helperText={errors.username?.message}
+                    disabled={isSubmitting}
                   />
                 )}
               />
@@ -180,7 +189,7 @@ const Registration: React.FC = () => {
                     variant="outlined"
                     error={!!errors.firstName}
                     helperText={errors.firstName?.message}
-                    disabled={loading}
+                    disabled={isSubmitting}
                   />
                 )}
               />
@@ -198,7 +207,7 @@ const Registration: React.FC = () => {
                     variant="outlined"
                     error={!!errors.lastName}
                     helperText={errors.lastName?.message}
-                    disabled={loading}
+                    disabled={isSubmitting}
                   />
                 )}
               />
@@ -217,7 +226,7 @@ const Registration: React.FC = () => {
                     variant="outlined"
                     error={!!errors.email}
                     helperText={errors.email?.message}
-                    disabled={loading}
+                    disabled={isSubmitting}
                   />
                 )}
               />
@@ -232,10 +241,14 @@ const Registration: React.FC = () => {
                     {...field}
                     fullWidth
                     label="Contact Number"
+                    type="number"
                     variant="outlined"
                     error={!!errors.contactNumber}
                     helperText={errors.contactNumber?.message}
-                    disabled={loading}
+                    disabled={isSubmitting}
+                    onChange={(e) =>
+                      field.onChange(parseInt(e.target.value) || 0)
+                    }
                   />
                 )}
               />
@@ -254,14 +267,14 @@ const Registration: React.FC = () => {
                     variant="outlined"
                     error={!!errors.password}
                     helperText={errors.password?.message}
-                    disabled={loading}
+                    disabled={isSubmitting}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
                             onClick={togglePasswordVisibility}
                             edge="end"
-                            disabled={loading}
+                            disabled={isSubmitting}
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
@@ -280,13 +293,17 @@ const Registration: React.FC = () => {
                 variant="contained"
                 color="primary"
                 size="large"
-                disabled={loading}
+                disabled={isSubmitting}
                 startIcon={
-                  loading ? <CircularProgress size={20} /> : <RegisterIcon />
+                  isSubmitting ? (
+                    <CircularProgress size={20} />
+                  ) : (
+                    <RegisterIcon />
+                  )
                 }
                 sx={{ py: 1.5 }}
               >
-                {loading ? "Creating Account..." : "Create Account"}
+                {isSubmitting ? "Creating Account..." : "Create Account"}
               </Button>
             </Grid>
           </Grid>
