@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@org.springframework.core.annotation.Order(2) // Run after RoleInitializationService
 public class DataInitializationService implements CommandLineRunner {
     
     @Autowired
@@ -18,7 +19,7 @@ public class DataInitializationService implements CommandLineRunner {
     
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("🎬 CinemaVerse Data Initialization Starting...");
+        System.out.println("🎬 ReelCritic Data Initialization Starting...");
         try {
             long movieCount = movieRepository.count();
             System.out.println("Found " + movieCount + " movies in database");
@@ -26,13 +27,13 @@ public class DataInitializationService implements CommandLineRunner {
             if (movieCount == 0) {
                 System.out.println("Database is empty, initializing with sample movie data...");
                 initializeMovieData();
-                System.out.println("✅ CinemaVerse movie data initialized successfully!");
+                System.out.println("✅ ReelCritic movie data initialized successfully!");
             } else {
                 // Temporary: Force refresh to fix broken poster URLs
                 System.out.println("🔄 Clearing existing movie data and reinitializing with updated poster URLs...");
                 movieRepository.deleteAll();
                 initializeMovieData();
-                System.out.println("✅ CinemaVerse movie data refreshed successfully with working poster URLs!");
+                System.out.println("✅ ReelCritic movie data refreshed successfully with working poster URLs!");
                 // TODO: Remove the above refresh logic after deployment - restore original check
             }
         } catch (Exception e) {
@@ -44,45 +45,45 @@ public class DataInitializationService implements CommandLineRunner {
     private void initializeMovieData() {
         List<Movie> movies = Arrays.asList(
             // Latest 2025 Movies
-            createMovie("Captain America: Brave New World", "CinemaVerse IMAX", 245, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BOGQ5YTM3NDMtYjUxOS00NDA1LWFhNGEtMzVkNWZiNzEzY2Q3XkEyXkFqcGc@._V1_SX300.jpg",
+            createMovie("Captain America: Brave New World", "ReelCritic IMAX", 245, "NOW SHOWING",
+                "https://m.media-amazon.com/images/M/MV5BNDRjY2E0ZmEtN2QwNi00NTEwLWI3MWItODNkMGYwYWFjNGE0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
                 "Sam Wilson, who's officially taken up the mantle of Captain America, finds himself in the middle of an international incident.",
                 "Julius Onah",
                 Arrays.asList("Anthony Mackie", "Danny Ramirez", "Shira Haas", "Xosha Roquemore", "Carl Lumbly"),
                 "Action, Adventure, Sci-Fi", "English", 118, 7.2, LocalDate.of(2025, 2, 14), "PG-13",
-                "https://www.youtube.com/watch?v=ESzHcs5-CjQ",
+                "https://www.youtube.com/watch?v=FEa9pPqGhPY",
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=captain+america"),
-
+            
             createMovie("Thunderbolts", "INOX", 312, "COMING SOON",
-                "https://m.media-amazon.com/images/M/MV5BZWUzZjNmNzktOTA4MS00OTQyLTg5NDEtNTZjZTdjY2M0OTdjXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://m.media-amazon.com/images/M/MV5BYWE2NmNmYTItZGY0ZC00MmY2LTk1NDAtMGUyMGEzMjcxNWM0XkEyXkFqcGc@._V1_FMjpg_UY2818_.jpg",
                 "A group of supervillains are recruited to go on missions for the government.",
                 "Jake Schreier",
                 Arrays.asList("Florence Pugh", "Sebastian Stan", "David Harbour", "Wyatt Russell", "Julia Louis-Dreyfus"),
                 "Action, Adventure, Comedy", "English", 130, 7.5, LocalDate.of(2025, 5, 2), "PG-13",
                 "https://www.youtube.com/watch?v=bCDhh5GK8sg",
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=thunderbolts"),
-
+            
             createMovie("Fantastic Four: First Steps", "Cinepolis", 298, "COMING SOON",
-                "https://m.media-amazon.com/images/M/MV5BN2NlNzg0ZTAtYjc5MS00MjE1LWJkZWYtZDZhNzI5NGI4ZmE2XkEyXkFqcGc@._V1_SX300.jpg",
+                "https://m.media-amazon.com/images/M/MV5BOGM5MzA3MDAtYmEwMi00ZDNiLTg4MDgtMTZjOTc0ZGMyNTIwXkEyXkFqcGc@._V1_FMjpg_UX1086_.jpg",
                 "A group of astronauts gain superpowers after a cosmic radiation exposure and must use them to oppose the plans of their enemy, Doctor Doom.",
                 "Matt Shakman",
                 Arrays.asList("Pedro Pascal", "Vanessa Kirby", "Joseph Quinn", "Ebon Moss-Bachrach", "Ralph Ineson"),
                 "Action, Adventure, Sci-Fi", "English", 125, 8.0, LocalDate.of(2025, 7, 25), "PG-13",
                 "https://www.youtube.com/watch?v=NYnQnNerddA",
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=fantastic+four"),
-
+            
             createMovie("Superman", "PVR Cinemas", 189, "COMING SOON",
-                "https://m.media-amazon.com/images/M/MV5BNzMxNWVkMDMtOTgwZS00ZWI5LWJmOTMtMGVkMDFhMDYzZjNjXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://m.media-amazon.com/images/M/MV5BOGMwZGJiM2EtMzEwZC00YTYzLWIxNzYtMmJmZWNlZjgxZTMwXkEyXkFqcGc@._V1_FMjpg_UY2048_.jpg",
                 "Superman struggles to reconcile his Kryptonian heritage with his human upbringing as Clark Kent.",
                 "James Gunn",
                 Arrays.asList("David Corenswet", "Rachel Brosnahan", "Nicholas Hoult", "Edi Gathegi", "Nathan Fillion"),
                 "Action, Adventure, Drama", "English", 140, 8.5, LocalDate.of(2025, 7, 11), "PG-13",
                 "https://www.youtube.com/watch?v=BdRF2sCCOz0",
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=superman"),
-
+            
             // Latest 2024 Movies
             createMovie("Dune: Part Two", "CinemaVerse IMAX", 523, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BN2QyZGU4ZDctOWMzMy00NTc5LThlOGQtODhmNDI1NmY5YzAwXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
                 "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.",
                 "Denis Villeneuve",
                 Arrays.asList("Timothée Chalamet", "Zendaya", "Rebecca Ferguson", "Josh Brolin", "Austin Butler"),
@@ -91,7 +92,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=dune+part+two"),
             
             createMovie("Deadpool & Wolverine", "INOX", 487, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BNzRiMjg0MzUtNTQ1Mi00Y2Q5LWEwM2MtMzUwZDU5NmVjN2NkXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
                 "Deadpool's peaceful existence comes crashing down when the Time Variance Authority recruits him to help safeguard the multiverse.",
                 "Shawn Levy",
                 Arrays.asList("Ryan Reynolds", "Hugh Jackman", "Emma Corrin", "Morena Baccarin", "Rob Delaney"),
@@ -100,7 +101,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=deadpool+wolverine"),
             
             createMovie("Inside Out 2", "Cinepolis", 432, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BZGI4Y2I3OGItOWZjNy00YzVkLWJjMjEtNjdkODAzYjM0NjE2XkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
                 "As Riley enters her teenage years, her emotions face new challenges when new emotions arrive at headquarters.",
                 "Kelsey Mann",
                 Arrays.asList("Amy Poehler", "Maya Hawke", "Kensington Tallman", "Liza Lapira", "Tony Hale"),
@@ -109,7 +110,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=inside+out+2"),
             
             createMovie("Beetlejuice Beetlejuice", "PVR Cinemas", 298, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BM2YwZjA0NzUtMmZjZC00MWFlLTljMTAtNTJjODVjZTc0OGJkXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/kKgQzkUCnQmeTPkyIwHly2t6ZFI.jpg",
                 "After an unexpected family tragedy, three generations of the Deetz family return home to Winter River.",
                 "Tim Burton",
                 Arrays.asList("Michael Keaton", "Winona Ryder", "Catherine O'Hara", "Jenna Ortega", "Willem Dafoe"),
@@ -119,7 +120,7 @@ public class DataInitializationService implements CommandLineRunner {
             
             // Latest 2023 Movies  
             createMovie("Oppenheimer", "CinemaVerse IMAX", 612, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
                 "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
                 "Christopher Nolan",
                 Arrays.asList("Cillian Murphy", "Emily Blunt", "Matt Damon", "Robert Downey Jr.", "Florence Pugh"),
@@ -128,7 +129,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=oppenheimer"),
             
             createMovie("Barbie", "INOX", 578, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BNjU3N2QxNzYtMjk1NC00MTc4LTk1NTQtMmUxNTljM2I0NDA5XkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
                 "Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land.",
                 "Greta Gerwig",
                 Arrays.asList("Margot Robbie", "Ryan Gosling", "America Ferrera", "Kate McKinnon", "Issa Rae"),
@@ -137,7 +138,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=barbie"),
             
             createMovie("Guardians of the Galaxy Vol. 3", "Cinepolis", 456, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",
                 "Still reeling from the loss of Gamora, Peter Quill rallies his team to defend the universe and protect one of their own.",
                 "James Gunn",
                 Arrays.asList("Chris Pratt", "Zoe Saldana", "Dave Bautista", "Karen Gillan", "Pom Klementieff"),
@@ -146,7 +147,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=guardians+galaxy"),
             
             createMovie("John Wick: Chapter 4", "PVR Cinemas", 389, "NOW SHOWING",
-                "https://m.media-amazon.com/images/M/MV5BMDExZGMyOTMtMDgyYi00NGIwLWJhMTEtOTdkZGFjNmZiMTEwXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
                 "John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy.",
                 "Chad Stahelski",
                 Arrays.asList("Keanu Reeves", "Donnie Yen", "Bill Skarsgård", "Laurence Fishburne", "Hiroyuki Sanada"),
@@ -156,7 +157,7 @@ public class DataInitializationService implements CommandLineRunner {
             
             // Classic Movies (Updated with proper TMDb URLs)
             createMovie("Avengers: Endgame", "CinemaVerse IMAX", 743, "CLASSIC",
-                "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
                 "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
                 "Anthony Russo, Joe Russo",
                 Arrays.asList("Robert Downey Jr.", "Chris Evans", "Mark Ruffalo", "Chris Hemsworth", "Scarlett Johansson"),
@@ -165,7 +166,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=avengers+endgame"),
             
             createMovie("The Dark Knight", "INOX", 892, "CLASSIC",
-                "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
                 "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
                 "Christopher Nolan",
                 Arrays.asList("Christian Bale", "Heath Ledger", "Aaron Eckhart", "Michael Caine", "Gary Oldman"),
@@ -174,7 +175,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=dark+knight"),
             
             createMovie("Inception", "Cinepolis", 723, "CLASSIC",
-                "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/ljsZTbVsrQSqZgWeep2B1QiDKuh.jpg",
                 "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
                 "Christopher Nolan",
                 Arrays.asList("Leonardo DiCaprio", "Marion Cotillard", "Tom Hardy", "Joseph Gordon-Levitt", "Elliot Page"),
@@ -183,7 +184,7 @@ public class DataInitializationService implements CommandLineRunner {
                 "https://in.bookmyshow.com/explore/movies-mumbai?q=inception"),
             
             createMovie("Parasite", "PVR Cinemas", 654, "CLASSIC",
-                "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGc@._V1_SX300.jpg",
+                "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
                 "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
                 "Bong Joon Ho",
                 Arrays.asList("Kang-ho Song", "Sun-kyun Lee", "Yeo-jeong Jo", "Woo-sik Choi", "So-dam Park"),

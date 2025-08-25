@@ -29,11 +29,11 @@ interface LoginRequest {
   password: string;
 }
 
-// Validation schema
+// Enhanced validation schema
 const loginSchema = yup.object({
   username: yup
     .string()
-    .required("Username is required")
+    .required("Username or email is required")
     .min(3, "Username must be at least 3 characters"),
   password: yup
     .string()
@@ -108,7 +108,7 @@ const Login: React.FC = () => {
             gutterBottom
             sx={{ fontWeight: "bold" }}
           >
-            Welcome to CinemaVerse
+            Welcome to ReelCritic
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Sign in to your universe of cinema experiences
@@ -133,10 +133,14 @@ const Login: React.FC = () => {
                   {...field}
                   fullWidth
                   label="Username"
+                  placeholder="Enter your username"
                   variant="outlined"
                   error={!!errors.username}
-                  helperText={errors.username?.message}
+                  helperText={
+                    errors.username?.message || "Your ReelCritic username"
+                  }
                   disabled={isSubmitting}
+                  autoComplete="username"
                 />
               )}
             />
@@ -149,11 +153,15 @@ const Login: React.FC = () => {
                   {...field}
                   fullWidth
                   label="Password"
+                  placeholder="Enter your password"
                   type={showPassword ? "text" : "password"}
                   variant="outlined"
                   error={!!errors.password}
-                  helperText={errors.password?.message}
+                  helperText={
+                    errors.password?.message || "Your account password"
+                  }
                   disabled={isSubmitting}
+                  autoComplete="current-password"
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -161,6 +169,7 @@ const Login: React.FC = () => {
                           onClick={togglePasswordVisibility}
                           edge="end"
                           disabled={isSubmitting}
+                          aria-label="toggle password visibility"
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>

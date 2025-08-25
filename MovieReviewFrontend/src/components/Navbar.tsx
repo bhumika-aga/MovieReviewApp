@@ -19,11 +19,12 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { user, isAuthenticated, logout } = useAuth();
@@ -112,14 +113,24 @@ const Navbar: React.FC = () => {
             variant="h5"
             component="div"
             sx={{
-              fontWeight: "bold",
-              color: "primary.main",
+              fontWeight: "800",
+              background: "linear-gradient(135deg, #ff6b35 0%, #ffd700 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
               cursor: "pointer",
-              "&:hover": { color: "primary.light" },
+              fontSize: "1.8rem",
+              letterSpacing: "-0.02em",
+              "&:hover": {
+                background: "linear-gradient(135deg, #ff8c5a 0%, #ffdf33 100%)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              },
             }}
             onClick={() => navigate("/movieList")}
           >
-            CinemaVerse
+            ReelCritic
           </Typography>
         </Box>
 
@@ -162,10 +173,12 @@ const Navbar: React.FC = () => {
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
-              PaperProps={{
-                sx: {
-                  backgroundColor: "background.paper",
-                  minWidth: 200,
+              slotProps={{
+                paper: {
+                  sx: {
+                    backgroundColor: "background.paper",
+                    minWidth: 200,
+                  },
                 },
               }}
             >

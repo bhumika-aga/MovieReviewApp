@@ -1,7 +1,7 @@
 {
-  "name": "cinemaverse-frontend",
+  "name": "reelcritic-frontend",
   "version": "1.0.0",
-  "description": "CinemaVerse - Modern Movie Booking Frontend with React & TypeScript",
+  "description": "ReelCritic - Premium Movie Review Platform with React & TypeScript",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

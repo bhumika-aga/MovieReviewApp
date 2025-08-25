@@ -1,10 +1,10 @@
-# 🎬 CinemaVerse
+# 🎬 ReelCritic
 
-**Your Universe of Cinema Reviews** - A sophisticated, production-ready full-stack movie review platform that combines the elegance of IMDB's design philosophy with modern web technologies. Built for movie enthusiasts and cinema critics, CinemaVerse delivers an immersive, responsive experience that makes discovering, reviewing, and booking movies effortless and enjoyable.
+**The Premium Movie Review Platform** - A sophisticated, production-ready full-stack movie review platform that combines the elegance of IMDb's design philosophy with modern web technologies. Built for movie enthusiasts and cinema critics, ReelCritic delivers an immersive, responsive experience that makes discovering, reviewing, and rating movies effortless and enjoyable.
 
-## 🌟 What Makes CinemaVerse Special?
+## 🌟 What Makes ReelCritic Special?
 
-CinemaVerse isn't just another movie review app—it's a carefully crafted digital cinema experience that bridges the gap between movie discovery and comprehensive reviews. With its sleek IMDB-inspired dark theme, lightning-fast performance, and intuitive user interface, it transforms how users interact with cinema content.
+ReelCritic isn't just another movie review app—it's a carefully crafted digital cinema experience that bridges the gap between movie discovery and comprehensive reviews. With its sleek IMDB-inspired dark theme, lightning-fast performance, and intuitive user interface, it transforms how users interact with cinema content.
 
 **🎯 Perfect For:**
 
@@ -17,14 +17,14 @@ CinemaVerse isn't just another movie review app—it's a carefully crafted digit
 
 - [Features](#-features)
 - [Tech Stack](#️-tech-stack)
-- [Architecture](#- architecture)
+- [Architecture](#️-architecture)
 - [Prerequisites](#-prerequisites)
 - [Installation & Setup](#-installation--setup)
-- [Running the Application](#- running-the-application)
+- [Running the Application](#️-running-the-application)
 - [API Documentation](#-api-documentation)
-- [Testing](# -testing)
-- [Project Structure](# -project-structure)
-- [Contributing](# -contributing)
+- [Testing](#-testing)
+- [Project Structure](#-project-structure)
+- [Contributing](#-contributing)
 
 ## ✨ Features
 
@@ -38,7 +38,7 @@ CinemaVerse isn't just another movie review app—it's a carefully crafted digit
 - **Complete Review System**: Write detailed movie reviews with star ratings and community engagement
 - **Secure Authentication**: JWT-based login, logout, and registration with form validation
 - **Review Interactions**: Mark reviews as helpful and engage with the community
-- **BookMyShow Integration**: Direct links to book tickets on BookMyShow
+- **External Booking Links**: Direct integration with external booking platforms
 - **Responsive Design**: Mobile-first responsive UI with dark IMDB-inspired theme
 
 ### 👨‍💼 Admin Features
@@ -93,7 +93,7 @@ CinemaVerse isn't just another movie review app—it's a carefully crafted digit
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   React Frontend │    │  Spring Boot    │    │    MongoDB      │
 │   (Port 3000)   │◄──►│   Backend       │◄──►│   Database      │
-│                 │    │  (Port 8000)    │    │                 │
+│                 │    │  (Port 8080)    │    │                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
         │                       │                       │
         │                       │                       │
@@ -127,7 +127,7 @@ CinemaVerse isn't just another movie review app—it's a carefully crafted digit
 
 ```bash
 git clone <repository-url>
-cd MovieBookingApp
+cd ReelCritic
 ```
 
 ### 2. Backend Setup
@@ -138,10 +138,10 @@ The application is configured to use MongoDB Atlas. Update `src/main/resources/a
 
 ```properties
 # MongoDB Atlas connection
-spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/CinemaVerse
-spring.data.mongodb.database=CinemaVerse
+spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/ReelCritic
+spring.data.mongodb.database=ReelCritic
 # or use local MongoDB
-spring.data.mongodb.uri=mongodb://localhost:27017/CinemaVerse
+spring.data.mongodb.uri=mongodb://localhost:27017/ReelCritic
 ```
 
 #### Install Backend Dependencies
@@ -184,7 +184,7 @@ npm start
 
 ```bash
 mvn clean package -DskipTests
-java -jar target/CinemaVerse-1.0.0.jar
+java -jar target/ReelCritic-1.0.0.jar
 ```
 
 #### Build Frontend
@@ -217,11 +217,11 @@ npm run build
 - `GET /api/v1.0/moviebooking/users/{username}/reviews` - Get all reviews by a user
 - `PUT /api/v1.0/moviebooking/reviews/{reviewId}/helpful` - Mark review as helpful
 
-### Booking Endpoints
+### User Management Endpoints
 
-- `POST /api/v1.0/moviebooking/{movieName}/add` - Book movie tickets (Auth required)
-- `GET /api/v1.0/moviebooking/userTickets/{movieName}` - Get all booked tickets (Admin only)
-- `PUT /api/v1.0/moviebooking/{movieName}/update/{ticketId}` - Update ticket status (Admin only)
+- `POST /api/v1.0/moviebooking/{movieName}/add` - Create user interaction record (Auth required)
+- `GET /api/v1.0/moviebooking/userTickets/{movieName}` - Get user interaction history (Admin only)
+- `PUT /api/v1.0/moviebooking/{movieName}/update/{ticketId}` - Update user interaction status (Admin only)
 
 ### Swagger Documentation
 
@@ -260,7 +260,7 @@ npm test -- --ci --watchAll=false
 ## 📁 Project Structure
 
 ```txt
-CinemaVerse/
+ReelCritic/
 ├── src/main/java/com/moviebookingapp/
 │   ├── controller/          # REST controllers
 │   ├── model/              # Entity models
@@ -308,8 +308,8 @@ spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/Cine
 spring.data.mongodb.database=CinemaVerse
 
 # JWT Configuration
-cinemaverse.app.jwtSecret=CinemaVerseSecretKeyForJwtTokenGenerationThatIsLongEnoughForHMAC256
-cinemaverse.app.jwtExpirationMs=86400000
+reelcritic.app.jwtSecret=ReelCriticSecretKeyForJwtTokenGenerationThatIsLongEnoughForHMAC256
+reelcritic.app.jwtExpirationMs=86400000
 
 # Logging
 logging.level.com.moviebookingapp=DEBUG
@@ -329,7 +329,6 @@ REACT_APP_API_BASE_URL=http://localhost:8080
 REACT_APP_ENV=development
 ```
 
-
 ## 🔒 Security Features
 
 - **JWT Authentication**: Secure token-based authentication
@@ -343,7 +342,7 @@ REACT_APP_ENV=development
 
 ### 🏠 Manual Deployment (Local/Server)
 
-Run CinemaVerse on your local machine or server:
+Run ReelCritic on your local machine or server:
 
 ```bash
 # Quick setup guide
@@ -369,7 +368,7 @@ cat MANUAL_DEPLOYMENT.md
 
 ### 🎯 Render.com Deployment (Cloud)
 
-Deploy CinemaVerse to Render.com's free tier:
+Deploy ReelCritic to Render.com's free tier:
 
 ```bash
 # Prepare for cloud deployment
@@ -393,11 +392,11 @@ cat RENDER_DEPLOYMENT.md
 
 ```bash
 # Build backend image
-docker build -f Dockerfile.render -t cinemaverse-backend .
+docker build -f Dockerfile.render -t reelcritic-backend .
 
 # Build frontend image  
 cd MovieReviewFrontend
-docker build -t cinemaverse-frontend .
+docker build -t reelcritic-frontend .
 
 # Run with docker-compose
 docker-compose up -d

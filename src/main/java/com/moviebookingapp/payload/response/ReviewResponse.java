@@ -1,7 +1,7 @@
 package com.moviebookingapp.payload.response;
 
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;

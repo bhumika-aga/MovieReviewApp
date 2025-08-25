@@ -43,6 +43,7 @@ class MovieService {
   }
 
   static async getMovieByName(movieName: string): Promise<AxiosResponse<Movie[]>> {
+    // Don't encode the movieName since backend expects exact match
     return api.get<Movie[]>(`/movies/search/${movieName}`);
   }
 

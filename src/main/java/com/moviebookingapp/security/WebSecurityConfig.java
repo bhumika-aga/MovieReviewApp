@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -91,10 +92,19 @@ public class WebSecurityConfig {
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                                               // Public endpoints
                                                .requestMatchers("/api/v1.0/moviebooking/login").permitAll()
                                                .requestMatchers("/api/v1.0/moviebooking/register").permitAll()
                                                .requestMatchers("/api/v1.0/moviebooking/all").permitAll()
                                                .requestMatchers("/api/v1.0/moviebooking/movies/search/**").permitAll()
+                                               
+                                               // Review endpoints - GET requests are public, POST requires auth
+                                               .requestMatchers(HttpMethod.GET, "/api/v1.0/moviebooking/movies/*/reviews").permitAll()
+                                               .requestMatchers(HttpMethod.GET, "/api/v1.0/moviebooking/users/*/reviews").permitAll()
+                                               .requestMatchers(HttpMethod.PUT, "/api/v1.0/moviebooking/reviews/*/helpful").permitAll()
+                                               .requestMatchers(HttpMethod.POST, "/api/v1.0/moviebooking/movies/*/reviews").authenticated()
+                                               
+                                               // Other public endpoints
                                                .requestMatchers("/actuator/**").permitAll()
                                                .requestMatchers("/swagger-ui/**").permitAll()
                                                .requestMatchers("/v3/api-docs/**").permitAll()

@@ -50,8 +50,9 @@ class ReviewService {
 
   static async getMovieReviews(movieName: string): Promise<AxiosResponse<ReviewResponse[]>> {
     try {
+      // Don't encode the movieName since backend expects exact match
       const response = await axios.get<ReviewResponse[]>(
-        `${this.API_URL}/movies/${encodeURIComponent(movieName)}/reviews`,
+        `${this.API_URL}/movies/${movieName}/reviews`,
         {
           headers: {
             'Content-Type': 'application/json',

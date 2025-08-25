@@ -1,7 +1,7 @@
 package com.moviebookingapp.repository;
 
-import com.moviebookingapp.model.Review;
 import com.moviebookingapp.model.Movie;
+import com.moviebookingapp.model.Review;
 import com.moviebookingapp.model.User;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;

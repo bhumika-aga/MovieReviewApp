@@ -2,6 +2,14 @@ import axios, { AxiosResponse } from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080';
 
+// Create a clean axios instance without any interceptors for auth operations
+const authAxios = axios.create({
+  baseURL: `${API_BASE_URL}/api/v1.0/moviebooking`,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 interface LoginRequest {
   username: string;
   password: string;
@@ -31,19 +39,10 @@ interface RegisterResponse {
 }
 
 class AuthService {
-  private static readonly API_URL = `${API_BASE_URL}/api/v1.0/moviebooking`;
 
   static async login(loginData: LoginRequest): Promise<AxiosResponse<LoginResponse>> {
     try {
-      const response = await axios.post<LoginResponse>(
-        `${this.API_URL}/login`,
-        loginData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await authAxios.post<LoginResponse>('/login', loginData);
       return response;
     } catch (error) {
       console.error('Login service error:', error);
@@ -53,17 +52,9 @@ class AuthService {
 
   static async register(registerData: RegisterRequest): Promise<AxiosResponse<RegisterResponse>> {
     try {
-      const response = await axios.post<RegisterResponse>(
-        `${this.API_URL}/register`,
-        registerData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await authAxios.post<RegisterResponse>('/register', registerData);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Registration service error:', error);
       throw error;
     }

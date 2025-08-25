@@ -41,7 +41,7 @@ import { Movie } from "../types/Movie";
 const MovieDetail: React.FC = () => {
   const { movieName } = useParams<{ movieName: string }>();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [reviews, setReviews] = useState<ReviewResponse[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,36 +55,51 @@ const MovieDetail: React.FC = () => {
   });
 
   useEffect(() => {
+    const fetchMovieDetails = async () => {
+      try {
+        setLoading(true);
+        // Decode the movie name from URL encoding
+        const decodedMovieName = decodeURIComponent(movieName || "");
+        // For now, we'll search for the movie by name
+        const response = await MovieService.getMovieByName(decodedMovieName);
+        const foundMovie = response.data.find(
+          (m: Movie) =>
+            m.movieName.toLowerCase() === decodedMovieName.toLowerCase()
+        );
+        setMovie(foundMovie || null);
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+        setMovie(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchReviews = async () => {
+      try {
+        // Decode the movie name from URL encoding
+        const decodedMovieName = decodeURIComponent(movieName || "");
+        const response = await ReviewService.getMovieReviews(decodedMovieName);
+        setReviews(response.data || []);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+        setReviews([]);
+      }
+    };
+
     if (movieName) {
       fetchMovieDetails();
       fetchReviews();
     }
   }, [movieName]);
 
-  const fetchMovieDetails = async () => {
-    try {
-      setLoading(true);
-      // For now, we'll search for the movie by name
-      const response = await MovieService.getMovieByName(movieName || "");
-      const foundMovie = response.data.find(
-        (m: Movie) =>
-          m.movieName.toLowerCase() ===
-          movieName?.toLowerCase().replace(/-/g, " ")
-      );
-      setMovie(foundMovie || null);
-    } catch (error) {
-      console.error("Error fetching movie details:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchReviews = async () => {
+  const refreshReviews = async () => {
     if (!movieName) return;
-
     try {
-      const response = await ReviewService.getMovieReviews(movieName);
-      setReviews(response.data);
+      // Decode the movie name from URL encoding
+      const decodedMovieName = decodeURIComponent(movieName);
+      const response = await ReviewService.getMovieReviews(decodedMovieName);
+      setReviews(response.data || []);
     } catch (error) {
       console.error("Error fetching reviews:", error);
       setReviews([]);
@@ -103,11 +118,13 @@ const MovieDetail: React.FC = () => {
 
     try {
       setSubmittingReview(true);
-      await ReviewService.addReview(movieName, newReview);
+      // Decode the movie name from URL encoding
+      const decodedMovieName = decodeURIComponent(movieName);
+      await ReviewService.addReview(decodedMovieName, newReview);
       setReviewDialogOpen(false);
       setNewReview({ rating: 5, title: "", content: "" });
       // Refresh reviews
-      await fetchReviews();
+      await refreshReviews();
     } catch (error) {
       console.error("Error adding review:", error);
       // You might want to show an error message to the user
@@ -120,7 +137,7 @@ const MovieDetail: React.FC = () => {
     try {
       await ReviewService.markReviewHelpful(reviewId);
       // Refresh reviews to update the helpful count
-      await fetchReviews();
+      await refreshReviews();
     } catch (error) {
       console.error("Error marking review as helpful:", error);
     }
@@ -152,13 +169,15 @@ const MovieDetail: React.FC = () => {
       {/* Movie Header Section */}
       <Grid container spacing={4} sx={{ mb: 4 }}>
         <Grid item xs={12} md={4}>
-          <Card sx={{ height: "100%" }}>
+          <Card sx={{ height: "100%", maxWidth: "267px", margin: "0 auto" }}>
             <Box
               component="img"
               sx={{
                 width: "100%",
                 height: "500px",
-                objectFit: "cover",
+                objectFit: "contain", // Fit entire image within container without cropping
+                objectPosition: "center", // Center the image
+                backgroundColor: "#1c1c1c", // Dark background for consistency
               }}
               src={movie.moviePoster}
               alt={movie.movieName}
@@ -427,16 +446,19 @@ const MovieDetail: React.FC = () => {
               sx={{ position: "relative", paddingBottom: "56.25%", height: 0 }}
             >
               <iframe
-                src={`https://www.youtube.com/embed/${videoId}`}
-                title="Movie Trailer"
-                frameBorder="0"
+                src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${window.location.origin}`}
+                title={`${movie.movieName} Official Trailer`}
                 allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 style={{
                   position: "absolute",
                   top: 0,
                   left: 0,
                   width: "100%",
                   height: "100%",
+                  border: "none",
+                  borderRadius: "8px",
                 }}
               />
             </Box>

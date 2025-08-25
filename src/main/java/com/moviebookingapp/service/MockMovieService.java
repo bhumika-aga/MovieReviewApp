@@ -27,9 +27,9 @@ public class MockMovieService {
                 "Sam Wilson, who's officially taken up the mantle of Captain America.",
                 "Julius Onah", Arrays.asList("Anthony Mackie", "Danny Ramirez"),
                 "Action, Adventure, Sci-Fi", "English", 118, 7.2, LocalDate.of(2025, 2, 14), "PG-13",
-                "https://www.youtube.com/watch?v=ESzHcs5-CjQ",
+                "https://www.youtube.com/watch?v=FEa9pPqGhPY",
                 "https://in.bookmyshow.com/explore/movies-mumbai"),
-
+            
             createMovie("Dune: Part Two", "CinemaVerse IMAX", 523, "NOW SHOWING",
                 "https://m.media-amazon.com/images/M/MV5BN2QyZGU4ZDctOWMzMy00NTc5LThlOGQtODhmNDI1NmY5YzAwXkEyXkFqcGc@._V1_SX300.jpg",
                 "Paul Atreides unites with Chani and the Fremen.",
@@ -37,7 +37,7 @@ public class MockMovieService {
                 "Action, Adventure, Drama", "English", 166, 8.8, LocalDate.of(2024, 3, 1), "PG-13",
                 "https://www.youtube.com/watch?v=Way9Dexny3w",
                 "https://in.bookmyshow.com/explore/movies-mumbai"),
-
+            
             createMovie("Oppenheimer", "CinemaVerse IMAX", 612, "NOW SHOWING",
                 "https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGc@._V1_SX300.jpg",
                 "The story of American scientist J. Robert Oppenheimer.",

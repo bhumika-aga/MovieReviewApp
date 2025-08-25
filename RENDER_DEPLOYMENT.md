@@ -1,15 +1,17 @@
-# 🚀 CinemaVerse Deployment Guide for Render.com
+# 🚀 ReelCritic Deployment Guide for Render.com
 
-Complete step-by-step guide for deploying CinemaVerse to Render.com's free tier.
+Complete step-by-step guide for deploying ReelCritic movie review platform to Render.com's free tier.
 
 ## 📋 Prerequisites
 
 ### Required Accounts
+
 - [GitHub](https://github.com) account (for code repository)
 - [Render.com](https://render.com) account (free tier)
 - [MongoDB Atlas](https://mongodb.com/atlas) account (free tier)
 
 ### Local Requirements
+
 - Git installed
 - Node.js 18+ and npm
 - Java 17+
@@ -27,7 +29,7 @@ Complete step-by-step guide for deploying CinemaVerse to Render.com's free tier.
    - Click "Create a New Cluster"
    - Choose **M0 Sandbox** (FREE tier)
    - Select region closest to you
-   - Name your cluster (e.g., "cinemaverse-cluster")
+   - Name your cluster (e.g., "reelcritic-cluster")
 
 3. **Configure Database Access**
    - Go to "Database Access" in sidebar
@@ -48,7 +50,7 @@ Complete step-by-step guide for deploying CinemaVerse to Render.com's free tier.
    - Choose "Connect your application"
    - Copy the connection string
    - Replace `<password>` with your database user password
-   - Save this for later (e.g., `mongodb+srv://username:password@cluster.mongodb.net/CinemaVerse`)
+   - Save this for later (e.g., `mongodb+srv://username:password@cluster.mongodb.net/ReelCritic`)
 
 ## 🏗️ Repository Setup
 
@@ -59,13 +61,14 @@ Complete step-by-step guide for deploying CinemaVerse to Render.com's free tier.
 git add .
 git commit -m "Prepare for Render deployment"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/CinemaVerse.git
+git remote add origin https://github.com/YOUR_USERNAME/ReelCritic.git
 git push -u origin main
 ```
 
 ### Step 2: Verify Deployment Files
 
 Ensure these files exist in your repository:
+
 - ✅ `render.yaml` (deployment configuration)
 - ✅ `Dockerfile.render` (Docker configuration)  
 - ✅ `src/main/resources/application-production.properties`
@@ -83,17 +86,18 @@ Ensure these files exist in your repository:
    - Click "New +"
    - Select "Blueprint"
    - Connect your GitHub repository
-   - Select your CinemaVerse repository
+   - Select your ReelCritic repository
    - Branch: `main`
    - Render will detect the `render.yaml` file
 
 3. **Configure Environment Variables**
-   
+
    **Backend Service Environment Variables:**
-   ```
+
+   ```txt
    SPRING_PROFILES_ACTIVE=production
    MONGODB_URI=your_mongodb_atlas_connection_string
-   SPRING_DATA_MONGODB_DATABASE=CinemaVerse
+   SPRING_DATA_MONGODB_DATABASE=ReelCritic
    JWT_SECRET=your_super_secret_jwt_key_256_bits_minimum
    CORS_ALLOWED_ORIGINS=https://YOUR_FRONTEND_APP.onrender.com
    LOGGING_LEVEL_ROOT=WARN
@@ -101,7 +105,8 @@ Ensure these files exist in your repository:
    ```
 
    **Frontend Service Environment Variables:**
-   ```
+
+   ```txt
    REACT_APP_API_BASE_URL=https://YOUR_BACKEND_APP.onrender.com
    REACT_APP_ENV=production
    ```
@@ -125,7 +130,7 @@ If Blueprint doesn't work, create services manually:
    - Dockerfile Path: `Dockerfile.render`
 
 2. **Configure Backend Service**
-   - **Name:** `cinemaverse-backend`
+   - **Name:** `reelcritic-backend`
    - **Plan:** Free
    - **Health Check Path:** `/actuator/health`
    - **Auto-Deploy:** Yes
@@ -143,7 +148,7 @@ If Blueprint doesn't work, create services manually:
    - Publish Directory: `build`
 
 2. **Configure Frontend Service**
-   - **Name:** `cinemaverse-frontend`
+   - **Name:** `reelcritic-frontend`
    - **Plan:** Free
    - **Auto-Deploy:** Yes
 
@@ -177,18 +182,21 @@ If Blueprint doesn't work, create services manually:
 ### 1. Verify Deployment
 
 **Backend Health Check:**
+
 ```bash
-curl https://your-backend-app.onrender.com/actuator/health
+curl https://your-reelcritic-backend.onrender.com/actuator/health
 ```
 
 **Expected Response:**
+
 ```json
 {"status":"UP"}
 ```
 
 **Frontend Access:**
-- Open `https://your-frontend-app.onrender.com`
-- Should display CinemaVerse homepage
+
+- Open `https://your-reelcritic-frontend.onrender.com`
+- Should display ReelCritic homepage
 
 ### 2. Test Core Functionality
 
@@ -210,6 +218,7 @@ The application automatically initializes with sample movie data on first startu
 
 **Symptoms:** Backend service fails during startup
 **Solutions:**
+
 - Check environment variables are set correctly
 - Verify MongoDB connection string
 - Check Render logs for specific errors
@@ -219,6 +228,7 @@ The application automatically initializes with sample movie data on first startu
 
 **Symptoms:** Frontend can't connect to backend
 **Solutions:**
+
 - Update `CORS_ALLOWED_ORIGINS` with exact frontend URL
 - Ensure no trailing slashes in URLs
 - Check both applications are deployed and running
@@ -227,6 +237,7 @@ The application automatically initializes with sample movie data on first startu
 
 **Symptoms:** "MongoDB connection failed" in logs
 **Solutions:**
+
 - Verify MongoDB Atlas connection string
 - Check database user permissions
 - Ensure network access allows Render IP ranges
@@ -236,6 +247,7 @@ The application automatically initializes with sample movie data on first startu
 
 **Symptoms:** Frontend deployment fails during build
 **Solutions:**
+
 - Check Node.js version (use Node 18+)
 - Verify all dependencies in package.json
 - Use `npm ci --legacy-peer-deps` for build command
@@ -245,6 +257,7 @@ The application automatically initializes with sample movie data on first startu
 
 **Symptoms:** Slow response after inactivity
 **Solutions:**
+
 - Use services regularly to keep them active
 - Implement "keep-alive" ping service (external)
 - Upgrade to paid plan for always-on services
@@ -252,15 +265,17 @@ The application automatically initializes with sample movie data on first startu
 ### Debugging Commands
 
 **View Backend Logs:**
+
 ```bash
 # In Render dashboard
 Services → your-backend → Logs
 ```
 
 **Test Local Production Build:**
+
 ```bash
 # Backend
-SPRING_PROFILES_ACTIVE=production java -jar target/CinemaVerse-1.0.0.jar
+SPRING_PROFILES_ACTIVE=production java -jar target/ReelCritic-1.0.0.jar
 
 # Frontend  
 cd MovieReviewFrontend
@@ -269,6 +284,7 @@ serve -s build
 ```
 
 **Check Environment Variables:**
+
 ```bash
 # In Render service settings
 Environment → View all variables
@@ -320,23 +336,26 @@ Environment → View all variables
 ## 🆘 Support & Resources
 
 ### Render.com Resources
+
 - [Render Documentation](https://render.com/docs)
 - [Render Community](https://community.render.com)
 - [Render Status](https://status.render.com)
 
 ### MongoDB Atlas Resources  
+
 - [Atlas Documentation](https://docs.atlas.mongodb.com)
 - [Atlas Support](https://support.mongodb.com)
 
 ### Project Resources
-- [CinemaVerse Issues](https://github.com/YOUR_USERNAME/CinemaVerse/issues)
+
+- [ReelCritic Issues](https://github.com/YOUR_USERNAME/ReelCritic/issues)
 - [Spring Boot Documentation](https://spring.io/projects/spring-boot)
 - [React Documentation](https://reactjs.org/docs)
 
 ---
 
-🎬 **Congratulations!** Your CinemaVerse application is now live on Render.com! 
+🎬 **Congratulations!** Your ReelCritic application is now live on Render.com!
 
-Share your deployment: `https://your-frontend-app.onrender.com` 
+Share your deployment: `https://your-frontend-app.onrender.com`
 
-**Happy Deploying! 🚀✨**
+Happy Movie Reviewing! 🚀✨

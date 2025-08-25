@@ -118,7 +118,7 @@ const MovieList: React.FC = () => {
           gutterBottom
           sx={{ color: "primary.main", fontWeight: "bold" }}
         >
-          🎬 CinemaVerse
+          🎬 ReelCritic
         </Typography>
         <Typography variant="h5" color="text.secondary">
           Your Universe of Cinema Experiences

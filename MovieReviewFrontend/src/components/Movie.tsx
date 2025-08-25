@@ -40,7 +40,8 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
   const [posterUrl, setPosterUrl] = useState<string>(movie.moviePoster || "");
 
   const handleBookTickets = (): void => {
-    navigate(`/movie/${movie.movieName.toLowerCase().replace(/\s+/g, "-")}`);
+    // Use encodeURIComponent to properly handle special characters like colons
+    navigate(`/movie/${encodeURIComponent(movie.movieName)}`);
   };
 
   const handleEditMovie = (): void => {
@@ -154,16 +155,19 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
           },
         }}
       >
-        <Box sx={{ position: "relative" }}>
+        <Box sx={{ position: "relative", maxWidth: "267px", margin: "0 auto" }}>
           <CardMedia
             component="img"
-            height="300"
             image={getImageSrc()}
             alt={movie.movieName}
             onError={handleImageError}
             sx={{
-              objectFit: "cover",
+              width: "100%",
+              height: "500px", // Set to 500px to match poster aspect ratio
+              objectFit: "contain", // Fit entire image within container without cropping
+              objectPosition: "center", // Center the image
               transition: "transform 0.3s ease",
+              backgroundColor: "#1c1c1c", // Fallback background
               "&:hover": {
                 transform: "scale(1.02)",
               },

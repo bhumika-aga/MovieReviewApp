@@ -9,11 +9,11 @@
 		<version>3.4.9</version>
 		<relativePath />
 	</parent>
-	<groupId>com.cinemaverse</groupId>
-	<artifactId>CinemaVerse</artifactId>
+	<groupId>com.reelcritic</groupId>
+	<artifactId>ReelCritic</artifactId>
 	<version>1.0.0</version>
-	<name>CinemaVerse</name>
-	<description>CinemaVerse - A Modern Movie Booking Experience</description>
+	<name>ReelCritic</name>
+	<description>ReelCritic - The Premium Movie Review Platform</description>
 	<properties>
 		<java.version>17</java.version>
 		<maven.version>3.8.0</maven.version>
