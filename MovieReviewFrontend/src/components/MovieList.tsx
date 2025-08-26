@@ -56,7 +56,6 @@ const MovieList: React.FC = () => {
         setMovies(uniqueArray);
         setFilteredMovies(uniqueArray);
       } catch (error) {
-        console.error("Error fetching movies:", error);
         setErrorMessage("Failed to load movies. Please try again.");
         setShowError(true);
       }

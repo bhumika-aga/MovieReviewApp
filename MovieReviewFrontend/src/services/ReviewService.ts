@@ -43,25 +43,23 @@ class ReviewService {
       );
       return response;
     } catch (error) {
-      console.error('Add review service error:', error);
       throw error;
     }
   }
 
   static async getMovieReviews(movieName: string): Promise<AxiosResponse<ReviewResponse[]>> {
     try {
-      // Don't encode the movieName since backend expects exact match
       const response = await axios.get<ReviewResponse[]>(
-        `${this.API_URL}/movies/${movieName}/reviews`,
+        `${this.API_URL}/movies/${encodeURIComponent(movieName)}/reviews`,
         {
           headers: {
             'Content-Type': 'application/json',
+            ...AuthService.getAuthHeader(),
           },
         }
       );
       return response;
     } catch (error) {
-      console.error('Get movie reviews service error:', error);
       throw error;
     }
   }
@@ -73,12 +71,12 @@ class ReviewService {
         {
           headers: {
             'Content-Type': 'application/json',
+            ...AuthService.getAuthHeader(),
           },
         }
       );
       return response;
     } catch (error) {
-      console.error('Get user reviews service error:', error);
       throw error;
     }
   }
@@ -91,12 +89,12 @@ class ReviewService {
         {
           headers: {
             'Content-Type': 'application/json',
+            ...AuthService.getAuthHeader(),
           },
         }
       );
       return response;
     } catch (error) {
-      console.error('Mark review helpful service error:', error);
       throw error;
     }
   }

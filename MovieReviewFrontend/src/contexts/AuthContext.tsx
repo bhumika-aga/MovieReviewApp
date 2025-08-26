@@ -66,7 +66,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setToken(savedToken);
         setUser(JSON.parse(savedUser));
       } catch (error) {
-        console.error("Error parsing saved user data:", error);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
       }
@@ -101,7 +100,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.setItem("token", newToken);
       localStorage.setItem("user", JSON.stringify(userData));
     } catch (error) {
-      console.error("Login error:", error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -122,7 +120,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // After successful registration, automatically log in
       await login(userData.username, userData.password);
     } catch (error) {
-      console.error("Registration error:", error);
       throw error;
     } finally {
       setIsLoading(false);

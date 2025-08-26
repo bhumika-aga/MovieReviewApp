@@ -1,8 +1,8 @@
 package com.moviebookingapp.security;
 
-import com.moviebookingapp.security.jwt.AuthEntryPointJwt;
-import com.moviebookingapp.security.jwt.AuthTokenFilter;
-import com.moviebookingapp.service.impl.UserDetailsServiceImpl;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -24,28 +24,29 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
+import com.moviebookingapp.security.jwt.AuthEntryPointJwt;
+import com.moviebookingapp.security.jwt.AuthTokenFilter;
+import com.moviebookingapp.service.impl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-    
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
-    
+
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
-    
+
     @Value("${cors.allowed.origins:http://localhost:3000}")
     private String allowedOrigins;
-    
+
     @Bean
     public AuthTokenFilter authJwtTokenFilter() {
         return new AuthTokenFilter();
     }
-    
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -53,68 +54,67 @@ public class WebSecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-    
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
+
         // Parse allowed origins from environment variable
         List<String> origins = Arrays.asList(allowedOrigins.split(","));
         configuration.setAllowedOrigins(origins);
-        
+
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
-        
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(AbstractHttpConfigurer::disable)
-            .formLogin(AbstractHttpConfigurer::disable)
-            .httpBasic(AbstractHttpConfigurer::disable)
-            .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                                               // Public endpoints
-                                               .requestMatchers("/api/v1.0/moviebooking/login").permitAll()
-                                               .requestMatchers("/api/v1.0/moviebooking/register").permitAll()
-                                               .requestMatchers("/api/v1.0/moviebooking/all").permitAll()
-                                               .requestMatchers("/api/v1.0/moviebooking/movies/search/**").permitAll()
-                                               
-                                               // Review endpoints - GET requests are public, POST requires auth
-                                               .requestMatchers(HttpMethod.GET, "/api/v1.0/moviebooking/movies/*/reviews").permitAll()
-                                               .requestMatchers(HttpMethod.GET, "/api/v1.0/moviebooking/users/*/reviews").permitAll()
-                                               .requestMatchers(HttpMethod.PUT, "/api/v1.0/moviebooking/reviews/*/helpful").permitAll()
-                                               .requestMatchers(HttpMethod.POST, "/api/v1.0/moviebooking/movies/*/reviews").authenticated()
-                                               
-                                               // Other public endpoints
-                                               .requestMatchers("/actuator/**").permitAll()
-                                               .requestMatchers("/swagger-ui/**").permitAll()
-                                               .requestMatchers("/v3/api-docs/**").permitAll()
-                                               .requestMatchers("/swagger-ui.html").permitAll()
-                                               .anyRequest().authenticated()
-            );
-        
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        // Public endpoints
+                        .requestMatchers("/api/v1.0/moviebooking/login").permitAll()
+                        .requestMatchers("/api/v1.0/moviebooking/register").permitAll()
+                        .requestMatchers("/api/v1.0/moviebooking/all").permitAll()
+                        .requestMatchers("/api/v1.0/moviebooking/movies/search/**").permitAll()
+
+                        // Review endpoints - GET requests are public, POST requires auth
+                        .requestMatchers(HttpMethod.GET, "/api/v1.0/moviebooking/movies/*/reviews").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1.0/moviebooking/users/*/reviews").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1.0/moviebooking/reviews/*/helpful").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1.0/moviebooking/movies/*/reviews").authenticated()
+
+                        // Other public endpoints
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .anyRequest().authenticated());
+
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        
+
         return http.build();
     }
 }

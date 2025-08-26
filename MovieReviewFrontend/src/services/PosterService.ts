@@ -55,7 +55,6 @@ export class PosterService {
     if (!TMDB_API_KEY || TMDB_API_KEY === 'your_api_key_here') {
       // Only warn once to reduce console spam
       if (!this.hasShownApiWarning) {
-        console.info('TMDb API key not configured. Using fallback poster URLs.');
         this.hasShownApiWarning = true;
       }
       return null;
@@ -86,7 +85,6 @@ export class PosterService {
 
       return null;
     } catch (error) {
-      console.error('Error fetching movie poster:', error);
       return null;
     }
   }

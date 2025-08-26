@@ -45,7 +45,6 @@ class AuthService {
       const response = await authAxios.post<LoginResponse>('/login', loginData);
       return response;
     } catch (error) {
-      console.error('Login service error:', error);
       throw error;
     }
   }
@@ -55,7 +54,6 @@ class AuthService {
       const response = await authAxios.post<RegisterResponse>('/register', registerData);
       return response;
     } catch (error: any) {
-      console.error('Registration service error:', error);
       throw error;
     }
   }

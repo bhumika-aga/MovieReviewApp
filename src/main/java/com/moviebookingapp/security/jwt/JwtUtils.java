@@ -1,78 +1,85 @@
 package com.moviebookingapp.security.jwt;
 
-import com.moviebookingapp.service.impl.UserDetailsImpl;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
+import com.moviebookingapp.service.impl.UserDetailsImpl;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 
 @Component
 public class JwtUtils {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-    
+
     @Value("${reelcritic.app.jwtSecret}")
     private String jwtSecret;
-    
+
     @Value("${reelcritic.app.jwtExpirationMs}")
     private int jwtExpirationMs;
-    
+
     /**
      * Generate JWT token from user authentication
      */
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-        
+
         return Jwts.builder()
-                   .setSubject(userPrincipal.getUsername())
-                   .setIssuedAt(new Date())
-                   .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                   .signWith(key)
-                   .compact();
+                .setSubject(userPrincipal.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(key)
+                .compact();
     }
-    
+
     /**
      * Generate JWT token from username (for registration)
      */
     public String generateTokenFromUsername(String username) {
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-        
+
         return Jwts.builder()
-                   .setSubject(username)
-                   .setIssuedAt(new Date())
-                   .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                   .signWith(key)
-                   .compact();
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(key)
+                .compact();
     }
-    
+
     /**
      * Extract claims from JWT token
      */
     private Claims getClaims(String token) {
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
         return Jwts.parserBuilder()
-                   .setSigningKey(key)
-                   .build()
-                   .parseClaimsJws(token)
-                   .getBody();
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
-    
+
     /**
      * Extract username from JWT token
      */
     public String getUsernameFromToken(String token) {
         return getClaims(token).getSubject();
     }
-    
+
     /**
      * Check if JWT token is expired
      */
@@ -85,7 +92,7 @@ public class JwtUtils {
             return true;
         }
     }
-    
+
     /**
      * Validate JWT token
      */
@@ -108,7 +115,7 @@ public class JwtUtils {
         }
         return false;
     }
-    
+
     /**
      * Get token expiration time in milliseconds
      */

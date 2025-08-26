@@ -24,7 +24,6 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemText,
   Rating,
   TextField,
   Typography,
@@ -49,7 +48,7 @@ const MovieDetail: React.FC = () => {
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [submittingReview, setSubmittingReview] = useState(false);
   const [newReview, setNewReview] = useState({
-    rating: 5,
+    rating: 5.0,
     title: "",
     content: "",
   });
@@ -68,7 +67,6 @@ const MovieDetail: React.FC = () => {
         );
         setMovie(foundMovie || null);
       } catch (error) {
-        console.error("Error fetching movie details:", error);
         setMovie(null);
       } finally {
         setLoading(false);
@@ -82,7 +80,6 @@ const MovieDetail: React.FC = () => {
         const response = await ReviewService.getMovieReviews(decodedMovieName);
         setReviews(response.data || []);
       } catch (error) {
-        console.error("Error fetching reviews:", error);
         setReviews([]);
       }
     };
@@ -101,7 +98,6 @@ const MovieDetail: React.FC = () => {
       const response = await ReviewService.getMovieReviews(decodedMovieName);
       setReviews(response.data || []);
     } catch (error) {
-      console.error("Error fetching reviews:", error);
       setReviews([]);
     }
   };
@@ -116,18 +112,44 @@ const MovieDetail: React.FC = () => {
   const handleAddReview = async () => {
     if (!movieName || !isAuthenticated) return;
 
+    // Basic validation
+    if (!newReview.title.trim()) {
+      alert("Please enter a review title.");
+      return;
+    }
+
+    if (!newReview.content.trim()) {
+      alert("Please enter review content.");
+      return;
+    }
+
+    if (newReview.rating < 1 || newReview.rating > 5) {
+      alert("Please select a rating between 1 and 5 stars.");
+      return;
+    }
+
     try {
       setSubmittingReview(true);
-      // Decode the movie name from URL encoding
-      const decodedMovieName = decodeURIComponent(movieName);
-      await ReviewService.addReview(decodedMovieName, newReview);
+      // Use the exact movie name from the movie object if available, otherwise decode from URL
+      const movieNameForAPI = movie?.movieName || decodeURIComponent(movieName);
+      await ReviewService.addReview(movieNameForAPI, newReview);
       setReviewDialogOpen(false);
-      setNewReview({ rating: 5, title: "", content: "" });
+      setNewReview({ rating: 5.0, title: "", content: "" });
       // Refresh reviews
       await refreshReviews();
-    } catch (error) {
-      console.error("Error adding review:", error);
-      // You might want to show an error message to the user
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        alert(
+          "You must be logged in to submit a review. Please log in and try again."
+        );
+      } else if (error.response?.status === 400) {
+        const errorMessage =
+          error.response?.data?.message ||
+          "Invalid review data. Please check your input.";
+        alert(errorMessage);
+      } else {
+        alert("Failed to submit review. Please try again.");
+      }
     } finally {
       setSubmittingReview(false);
     }
@@ -139,7 +161,6 @@ const MovieDetail: React.FC = () => {
       // Refresh reviews to update the helpful count
       await refreshReviews();
     } catch (error) {
-      console.error("Error marking review as helpful:", error);
     }
   };
 
@@ -367,52 +388,46 @@ const MovieDetail: React.FC = () => {
                   <ListItemAvatar>
                     <Avatar>{review.username.charAt(0).toUpperCase()}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText
-                    primary={
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 2,
-                          mb: 1,
-                        }}
+                  <Box sx={{ flex: 1, pl: 2 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 2,
+                        mb: 1,
+                      }}
+                    >
+                      <Typography variant="h6">{review.title}</Typography>
+                      <Rating
+                        value={review.rating}
+                        precision={0.5}
+                        readOnly
+                        size="small"
+                      />
+                      <Typography variant="body2" color="text.secondary">
+                        {review.rating}/5
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      by {review.userFullName || review.username} •{" "}
+                      {new Date(review.createdDate).toLocaleDateString()}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mt: 1 }}>
+                      {review.content}
+                    </Typography>
+                    <Box sx={{ mt: 2 }}>
+                      <Button
+                        size="small"
+                        onClick={() => handleMarkHelpful(review.reviewId)}
                       >
-                        <Typography variant="h6">{review.title}</Typography>
-                        <Rating
-                          value={review.rating}
-                          precision={0.5}
-                          readOnly
-                          size="small"
-                        />
-                        <Typography variant="body2" color="text.secondary">
-                          {review.rating}/5
-                        </Typography>
-                      </Box>
-                    }
-                    secondary={
-                      <>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          gutterBottom
-                        >
-                          by {review.userFullName || review.username} •{" "}
-                          {new Date(review.createdDate).toLocaleDateString()}
-                        </Typography>
-                        <Typography variant="body1" sx={{ mt: 1 }}>
-                          {review.content}
-                        </Typography>
-                        <Box sx={{ mt: 2 }}>
-                          <Button
-                            size="small"
-                            onClick={() => handleMarkHelpful(review.reviewId)}
-                          >
-                            Helpful ({review.helpful})
-                          </Button>
-                        </Box>
-                      </>
-                    }
-                  />
+                        Helpful ({review.helpful})
+                      </Button>
+                    </Box>
+                  </Box>
                 </ListItem>
                 <Divider />
               </React.Fragment>
@@ -427,6 +442,8 @@ const MovieDetail: React.FC = () => {
         onClose={() => setTrailerOpen(false)}
         maxWidth="md"
         fullWidth
+        disableEscapeKeyDown={false}
+        disableRestoreFocus={false}
       >
         <DialogTitle
           sx={{
@@ -472,6 +489,8 @@ const MovieDetail: React.FC = () => {
         onClose={() => setReviewDialogOpen(false)}
         maxWidth="sm"
         fullWidth
+        disableEscapeKeyDown={false}
+        disableRestoreFocus={false}
       >
         <DialogTitle>Write a Review</DialogTitle>
         <DialogContent>
@@ -482,7 +501,7 @@ const MovieDetail: React.FC = () => {
             <Rating
               value={newReview.rating}
               onChange={(_, newValue) =>
-                setNewReview({ ...newReview, rating: newValue || 0 })
+                setNewReview({ ...newReview, rating: newValue || 0.0 })
               }
               size="large"
               sx={{ mb: 3 }}

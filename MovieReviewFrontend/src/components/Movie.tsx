@@ -58,7 +58,6 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
       await onDelete(movie.movieName);
       setShowDeleteDialog(false);
     } catch (error) {
-      console.error("Error deleting movie:", error);
     } finally {
       setIsDeleting(false);
     }
@@ -133,7 +132,6 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
           setImageError(false); // Reset error state when we get a new URL
         }
       } catch (error) {
-        console.error("Error fetching poster URL:", error);
       }
     };
 
