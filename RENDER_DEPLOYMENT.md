@@ -100,7 +100,7 @@ Ensure these files exist in your repository:
    SPRING_DATA_MONGODB_DATABASE=ReelCritic
    JWT_SECRET=your_super_secret_jwt_key_256_bits_minimum
    JWT_EXPIRATION_MS=86400000
-   CORS_ALLOWED_ORIGINS=https://YOUR_FRONTEND_APP.onrender.com
+   CORS_ALLOWED_ORIGINS=https://reelcriticapp.onrender.com
    LOGGING_LEVEL_ROOT=WARN
    LOGGING_LEVEL_APP=INFO
    LOGGING_LEVEL_JWT=INFO
@@ -110,7 +110,7 @@ Ensure these files exist in your repository:
    **Frontend Service Environment Variables:**
 
    ```txt
-   REACT_APP_API_BASE_URL=https://YOUR_BACKEND_APP.onrender.com
+   REACT_APP_API_BASE_URL=https://reelcriticserver.onrender.com
    REACT_APP_ENV=production
    ```
 

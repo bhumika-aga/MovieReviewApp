@@ -98,10 +98,10 @@ git push origin main
 
 ### Cloud Deployment URLs
 
-- **Frontend:** <https://your-app-name.onrender.com>
-- **Backend API:** <https://your-backend-name.onrender.com>
-- **API Documentation:** <https://your-backend-name.onrender.com/swagger-ui.html>
-- **Health Check:** <https://your-backend-name.onrender.com/actuator/health>
+- **Frontend:** <https://reelcriticapp.onrender.com>
+- **Backend API:** <https://reelcriticserver.onrender.com>
+- **API Documentation:** <https://reelcriticserver.onrender.com/swagger-ui.html>
+- **Health Check:** <https://reelcriticserver.onrender.com/actuator/health>
 
 ## 📋 Deployment Comparison
 
