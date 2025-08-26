@@ -99,8 +99,11 @@ Ensure these files exist in your repository:
    MONGODB_URI=your_mongodb_atlas_connection_string
    SPRING_DATA_MONGODB_DATABASE=ReelCritic
    JWT_SECRET=your_super_secret_jwt_key_256_bits_minimum
+   JWT_EXPIRATION_MS=86400000
    CORS_ALLOWED_ORIGINS=https://YOUR_FRONTEND_APP.onrender.com
    LOGGING_LEVEL_ROOT=WARN
+   LOGGING_LEVEL_APP=INFO
+   LOGGING_LEVEL_JWT=INFO
    MANAGEMENT_ENDPOINTS=health,info
    ```
 
@@ -163,7 +166,12 @@ If Blueprint doesn't work, create services manually:
 | `SPRING_PROFILES_ACTIVE` | Activates production config | `production` |
 | `MONGODB_URI` | MongoDB connection string | `mongodb+srv://user:pass@cluster.mongodb.net/ReelCritic` |
 | `JWT_SECRET` | Secret key for JWT tokens (256-bit) | `YourSuperSecretKeyThatIs256BitsMinimumForSecurity` |
+| `JWT_EXPIRATION_MS` | JWT token expiration time | `86400000` |
 | `CORS_ALLOWED_ORIGINS` | Allowed frontend origins | `https://yourapp.onrender.com` |
+| `LOGGING_LEVEL_ROOT` | Root logging level | `WARN` |
+| `LOGGING_LEVEL_APP` | App logging level | `INFO` |
+| `LOGGING_LEVEL_JWT` | JWT logging level | `INFO` |
+| `MANAGEMENT_ENDPOINTS` | Actuator endpoints | `health,info` |
 | `REACT_APP_API_BASE_URL` | Backend API URL for frontend | `https://backend.onrender.com` |
 
 ### Important Notes
