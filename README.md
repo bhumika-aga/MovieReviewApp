@@ -59,33 +59,35 @@ ReelCritic isn't just another movie review app—it's a carefully crafted digita
 
 ## 🛠️ Tech Stack
 
-### Frontend
+### Frontend Technologies
 
-- **React** `19.1.1` - UI framework
-- **TypeScript** `4.9.5` - Type-safe JavaScript
-- **Material-UI** `5.15.0` - Component library
-- **React Router** `6.30.1` - Client-side routing
-- **Axios** `1.11.0` - HTTP client
-- **React Hook Form** `7.62.0` - Form handling
+- **React** `19.1.1` - Modern UI framework with hooks and context
+- **TypeScript** `4.9.5` - Type-safe JavaScript for better development experience
+- **Material-UI** `5.15.0` - Professional component library with IMDB-inspired theming
+- **React Router** `6.30.1` - Client-side routing for SPA navigation
+- **Axios** `1.11.0` - Promise-based HTTP client with interceptors
+- **React Hook Form** `7.62.0` - Performant form handling with validation
 
-### Backend
+### Backend Technologies
 
-- **Java** `17` - Core programming language
-- **Spring Boot** `3.4.8` - Application framework
-- **Spring Security** `6.2.9` - Authentication & authorization
-- **Spring Data MongoDB** `3.4.8` - Data persistence
-- **MongoDB** - Production database
-- **JWT** `0.11.5` - Token-based authentication
-- **Maven** `3.8+` - Dependency management
-- **JUnit 5** `5.9.3` - Testing framework
+- **Java** `17` - Modern LTS version with advanced features
+- **Spring Boot** `3.4.8` - Production-ready application framework
+- **Spring Security** `6.2.9` - Comprehensive security framework
+- **Spring Data MongoDB** `3.4.8` - NoSQL data persistence layer
+- **MongoDB** `4.4+` - Document-based production database
+- **JWT (JSON Web Tokens)** `0.11.5` - Stateless authentication
+- **Maven** `3.8+` - Dependency management and build automation
+- **JUnit 5** `5.9.3` - Modern testing framework
 
-### Additional Technologies
+### DevOps & Integration
 
-- **TMDb API** - The Movie Database integration for posters
-- **Swagger/OpenAPI** - API documentation
-- **Lombok** - Java boilerplate reduction
-- **BCrypt** - Password encryption
-- **Auto-initialization** - Smart database seeding with latest movies
+- **Docker** - Containerization for consistent deployments
+- **Render.com** - Cloud hosting platform with auto-deployment
+- **GitHub Actions** - CI/CD pipeline support
+- **TMDb API** - The Movie Database integration for rich poster content
+- **Swagger/OpenAPI** `3.0` - Interactive API documentation
+- **Lombok** - Java boilerplate code reduction
+- **BCrypt** - Industry-standard password encryption
 
 ## 🏗️ Architecture
 
@@ -195,39 +197,411 @@ npm run build
 # Serve the build folder using a web server
 ```
 
-## 📚 API Documentation
+## 📚 API Documentation & Examples
 
-### Authentication Endpoints
+### 🔐 Authentication Endpoints
 
-- `POST /api/v1.0/moviebooking/register` - User registration
-- `POST /api/v1.0/moviebooking/login` - User login
+#### User Registration
 
-### Movie Endpoints
+```http
+POST /api/v1.0/moviebooking/register
+Content-Type: application/json
 
-- `GET /api/v1.0/moviebooking/all` - Get all movies
-- `GET /api/v1.0/moviebooking/movies/search/{movieName}` - Search movies by name
-- `POST /api/v1.0/moviebooking/addMovie` - Add movie (Admin only)
-- `PUT /api/v1.0/moviebooking/update/{movieName}` - Update movie (Admin only)
-- `DELETE /api/v1.0/moviebooking/delete/{movieName}` - Delete movie (Admin only)
+{
+  "username": "johnsmith",
+  "firstName": "John",
+  "lastName": "Smith",
+  "email": "john@example.com",
+  "contactNumber": 9876543210,
+  "password": "SecurePass123"
+}
+```
 
-### Review Endpoints
+**Response (201 Created):**
 
-- `POST /api/v1.0/moviebooking/movies/{movieName}/reviews` - Add movie review (Auth required)
-- `GET /api/v1.0/moviebooking/movies/{movieName}/reviews` - Get all reviews for a movie
-- `GET /api/v1.0/moviebooking/users/{username}/reviews` - Get all reviews by a user
-- `PUT /api/v1.0/moviebooking/reviews/{reviewId}/helpful` - Mark review as helpful
+```json
+{
+  "message": "User registered successfully!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
 
-### User Management Endpoints
+#### User Login
 
-- `POST /api/v1.0/moviebooking/{movieName}/add` - Create user interaction record (Auth required)
-- `GET /api/v1.0/moviebooking/userTickets/{movieName}` - Get user interaction history (Admin only)
-- `PUT /api/v1.0/moviebooking/{movieName}/update/{ticketId}` - Update user interaction status (Admin only)
+```http
+POST /api/v1.0/moviebooking/login
+Content-Type: application/json
 
-### Swagger Documentation
+{
+  "username": "johnsmith",
+  "password": "SecurePass123"
+}
+```
 
-Access interactive API docs at: `http://localhost:8080/swagger-ui.html`
+**Response (200 OK):**
 
-## 🧪 Testing
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "type": "Bearer",
+  "id": "65f1a2b3c4d5e6f7a8b9c0d1",
+  "username": "johnsmith",
+  "email": "john@example.com",
+  "roles": ["ROLE_USER"]
+}
+```
+
+### 🎬 Movie Endpoints
+
+#### Get All Movies
+
+```http
+GET /api/v1.0/moviebooking/all
+```
+
+**Response (200 OK):**
+
+```json
+[
+  {
+    "movieId": "65f1a2b3c4d5e6f7a8b9c0d1",
+    "movieName": "Avatar: The Way of Water",
+    "director": "James Cameron",
+    "cast": ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver"],
+    "genre": "Action",
+    "releaseDate": "2023-12-16",
+    "duration": 192,
+    "rating": 8.4,
+    "reviewCount": 156,
+    "description": "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora...",
+    "trailerUrl": "https://www.youtube.com/watch?v=d9MyW72ELq0",
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BYjhiNjBlODctY2ZiOC00YjVlLWFlNzAtNTVhNzM1YjI1NzMxXkEyXkFqcGdeQXVyMjQxNTE1MDA@._V1_.jpg",
+    "theatres": [
+      {
+        "theatreName": "PVR Cinemas",
+        "location": "Mumbai",
+        "totalSeats": 200,
+        "availableSeats": 150
+      }
+    ]
+  }
+]
+```
+
+#### Search Movies by Name
+
+```http
+GET /api/v1.0/moviebooking/movies/search/Avatar
+```
+
+#### Add New Movie (Admin Only)
+
+```http
+POST /api/v1.0/moviebooking/addMovie
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+{
+  "movieName": "The Batman",
+  "director": "Matt Reeves",
+  "cast": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano"],
+  "genre": "Action",
+  "releaseDate": "2024-03-04",
+  "duration": 176,
+  "description": "When a killer targets Gotham's elite with a series of sadistic machinations...",
+  "trailerUrl": "https://www.youtube.com/watch?v=mqqft2x_Aa4",
+  "theatres": [
+    {
+      "theatreName": "INOX",
+      "location": "Delhi", 
+      "totalSeats": 150,
+      "availableSeats": 150
+    }
+  ]
+}
+```
+
+### ⭐ Review Endpoints
+
+#### Add Movie Review (Authentication Required)
+
+```http
+POST /api/v1.0/moviebooking/movies/Avatar: The Way of Water/reviews
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "title": "Visually Stunning Masterpiece",
+  "content": "James Cameron has outdone himself once again. The underwater sequences are breathtaking and the story builds beautifully on the first film. A must-watch in IMAX!"
+}
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "message": "Review added successfully"
+}
+```
+
+#### Get Movie Reviews
+
+```http
+GET /api/v1.0/moviebooking/movies/Avatar: The Way of Water/reviews
+```
+
+**Response (200 OK):**
+
+```json
+[
+  {
+    "reviewId": "65f2b3c4d5e6f7a8b9c0d1e2",
+    "userId": "65f1a2b3c4d5e6f7a8b9c0d1",
+    "username": "johnsmith",
+    "fullName": "John Smith",
+    "movieName": "Avatar: The Way of Water",
+    "rating": 4,
+    "title": "Visually Stunning Masterpiece",
+    "content": "James Cameron has outdone himself once again...",
+    "createdDate": "2025-08-26T10:30:00Z",
+    "helpful": 23
+  }
+]
+```
+
+#### Mark Review as Helpful
+
+```http
+PUT /api/v1.0/moviebooking/reviews/65f2b3c4d5e6f7a8b9c0d1e2/helpful
+```
+
+### 🎫 Booking Endpoints
+
+#### Book Tickets (Authentication Required)
+
+```http
+POST /api/v1.0/moviebooking/bookTicket
+Authorization: Bearer {jwt_token}
+Content-Type: application/json
+
+{
+  "movieName": "Avatar: The Way of Water",
+  "theatreName": "PVR Cinemas",
+  "numberOfTickets": 2
+}
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "message": "Tickets booked successfully!",
+  "bookingId": "BK001",
+  "movieName": "Avatar: The Way of Water",
+  "theatreName": "PVR Cinemas",
+  "numberOfTickets": 2,
+  "totalPrice": 600
+}
+```
+
+#### Get User Bookings
+
+```http
+GET /api/v1.0/moviebooking/getBookedTickets/johnsmith
+Authorization: Bearer {jwt_token}
+```
+
+### 🔍 Error Response Format
+
+All endpoints return consistent error responses:
+
+```json
+{
+  "message": "Error description here",
+  "timestamp": "2025-08-26T12:00:00Z",
+  "status": 400
+}
+```
+
+### 📖 Interactive Documentation
+
+Access the complete Swagger UI documentation at:
+
+- **Local:** `http://localhost:8080/swagger-ui.html`
+- **Production:** `https://reelcriticserver.onrender.com/swagger-ui.html`
+
+### 🔑 Authentication Headers
+
+All protected endpoints require JWT token in Authorization header:
+
+```http
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+## 🖼️ User Interface Overview
+
+### 🏠 Homepage - Movie Discovery
+
+The homepage features a **Netflix/IMDb-inspired dark theme** with golden accents:
+
+- **Hero Section**: Featured movie carousel with high-quality posters
+- **Movie Grid**: Responsive cards showing movie posters, ratings, and quick actions
+- **Smart Search Bar**: Real-time movie search with auto-suggestions
+- **Filter Options**: Genre-based filtering and sorting capabilities
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+
+### 🎬 Movie Details Page
+
+Comprehensive movie information display:
+
+- **High-Resolution Poster**: TMDb API integration for quality images
+- **Movie Metadata**: Director, cast, genre, duration, release date
+- **YouTube Trailer**: Embedded modal player for movie trailers
+- **Star Rating System**: Visual 5-star rating display with average scores
+- **Review Section**: User reviews with helpful voting system
+- **Booking Integration**: Direct links to ticket booking platforms
+
+### 🔐 Authentication UI
+
+Modern, secure authentication experience:
+
+- **Login Form**: Material-UI components with form validation
+- **Registration Form**: Multi-step validation with password strength indicators
+- **Password Visibility Toggle**: User-friendly password input
+- **Error Handling**: Clear, contextual error messages
+- **JWT Token Management**: Automatic token refresh and logout
+
+### ⭐ Review System
+
+Interactive review and rating platform:
+
+- **Review Form**: Rich text editor for detailed movie reviews
+- **Star Rating Input**: Interactive 5-star rating selection
+- **Review Display**: Clean card layout with user information
+- **Community Features**: "Helpful" voting system for reviews
+- **User Profiles**: Individual review history pages
+
+### 📱 Responsive Mobile UI
+
+Mobile-first responsive design:
+
+- **Collapsible Navigation**: Hamburger menu for mobile devices
+- **Touch-Optimized**: Large touch targets and smooth scrolling
+- **Optimized Images**: Progressive image loading and responsive sizing
+- **Mobile Search**: Slide-out search interface for small screens
+
+### 🎨 Design System
+
+Professional Material-UI implementation:
+
+- **Color Palette**: Dark theme (#121212) with golden accents (#F5C518)
+- **Typography**: Roboto font family with clear hierarchy
+- **Animations**: Smooth hover effects and loading states
+- **Accessibility**: WCAG compliant with keyboard navigation support
+
+## 📊 Sample UI Components
+
+### Movie Card Component
+
+```typescript
+interface MovieCardProps {
+  movie: {
+    movieName: string;
+    director: string;
+    genre: string;
+    rating: number;
+    posterUrl: string;
+    duration: number;
+  };
+  onViewDetails: (movieName: string) => void;
+}
+```
+
+### Review Form Component
+
+```typescript
+interface ReviewFormProps {
+  movieName: string;
+  onSubmit: (review: {
+    rating: number;
+    title: string;
+    content: string;
+  }) => void;
+}
+```
+
+## 🧪 Testing & Development
+
+### 🔬 API Testing with cURL
+
+#### Test User Registration
+
+```bash
+curl -X POST "http://localhost:8080/api/v1.0/moviebooking/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "testuser",
+    "firstName": "Test",
+    "lastName": "User", 
+    "email": "test@example.com",
+    "contactNumber": 9876543210,
+    "password": "TestPass123"
+  }'
+```
+
+#### Test User Login
+
+```bash
+curl -X POST "http://localhost:8080/api/v1.0/moviebooking/login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "testuser",
+    "password": "TestPass123"
+  }'
+```
+
+#### Test Get All Movies
+
+```bash
+curl -X GET "http://localhost:8080/api/v1.0/moviebooking/all" \
+  -H "Accept: application/json"
+```
+
+#### Test Movie Search
+
+```bash
+curl -X GET "http://localhost:8080/api/v1.0/moviebooking/movies/search/Avatar" \
+  -H "Accept: application/json"
+```
+
+#### Test Add Review (Replace {JWT_TOKEN} with actual token)
+
+```bash
+curl -X POST "http://localhost:8080/api/v1.0/moviebooking/movies/Avatar/reviews" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {JWT_TOKEN}" \
+  -d '{
+    "rating": 5,
+    "title": "Amazing Movie!",
+    "content": "This movie exceeded all my expectations. Highly recommended!"
+  }'
+```
+
+#### Test Book Tickets
+
+```bash
+curl -X POST "http://localhost:8080/api/v1.0/moviebooking/bookTicket" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {JWT_TOKEN}" \
+  -d '{
+    "movieName": "Avatar",
+    "theatreName": "PVR Cinemas",
+    "numberOfTickets": 2
+  }'
+```
+
+### 🧪 Automated Testing
 
 ### Backend Tests
 
