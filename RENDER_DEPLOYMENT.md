@@ -96,7 +96,7 @@ Ensure these files exist in your repository:
 
    ```txt
    SPRING_PROFILES_ACTIVE=production
-   MONGODB_URI=your_mongodb_atlas_connection_string
+   MONGODB_URI=mongodb+srv://bhumika-aga:NEW_SECURE_PASSWORD@movie.elou1o4.mongodb.net/ReelCritic
    SPRING_DATA_MONGODB_DATABASE=ReelCritic
    JWT_SECRET=your_super_secret_jwt_key_256_bits_minimum
    JWT_EXPIRATION_MS=86400000

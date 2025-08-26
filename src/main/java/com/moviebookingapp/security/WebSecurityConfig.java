@@ -106,6 +106,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1.0/moviebooking/movies/*/reviews").authenticated()
 
                         // Other public endpoints
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
