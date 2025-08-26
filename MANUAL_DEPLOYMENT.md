@@ -368,7 +368,7 @@ management.endpoints.web.exposure.include=health,info
 Run with production profile:
 
 ```bash
-java -jar -Dspring.profiles.active=prod target/CinemaVerse-1.0.0.jar
+java -jar -Dspring.profiles.active=prod target/ReelCritic-1.0.0.jar
 ```
 
 ## 🎯 Access Points

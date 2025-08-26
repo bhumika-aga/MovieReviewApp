@@ -123,7 +123,7 @@ If Blueprint doesn't work, create services manually:
 
 1. **Create Web Service**
    - New + → Web Service
-   - Connect Repository: Your CinemaVerse repo
+   - Connect Repository: Your ReelCritic repo
    - Branch: `main`
    - Root Directory: Leave empty
    - Environment: `Docker`
@@ -141,7 +141,7 @@ If Blueprint doesn't work, create services manually:
 
 1. **Create Static Site**
    - New + → Static Site
-   - Connect Repository: Your CinemaVerse repo
+   - Connect Repository: Your ReelCritic repo
    - Branch: `main`
    - Root Directory: `MovieReviewFrontend`
    - Build Command: `npm ci --legacy-peer-deps && npm run build`
@@ -161,7 +161,7 @@ If Blueprint doesn't work, create services manually:
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `SPRING_PROFILES_ACTIVE` | Activates production config | `production` |
-| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://user:pass@cluster.mongodb.net/CinemaVerse` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://user:pass@cluster.mongodb.net/ReelCritic` |
 | `JWT_SECRET` | Secret key for JWT tokens (256-bit) | `YourSuperSecretKeyThatIs256BitsMinimumForSecurity` |
 | `CORS_ALLOWED_ORIGINS` | Allowed frontend origins | `https://yourapp.onrender.com` |
 | `REACT_APP_API_BASE_URL` | Backend API URL for frontend | `https://backend.onrender.com` |

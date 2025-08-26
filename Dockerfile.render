@@ -26,7 +26,7 @@ WORKDIR /app
 RUN groupadd -r cinemaverse && useradd -r -g cinemaverse cinemaverse
 
 # Copy JAR file
-COPY --from=backend-build /app/target/CinemaVerse-1.0.0.jar app.jar
+COPY --from=backend-build /app/target/ReelCritic-1.0.0.jar app.jar
 
 # Change ownership
 RUN chown cinemaverse:cinemaverse app.jar

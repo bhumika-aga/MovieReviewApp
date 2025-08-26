@@ -18,4 +18,4 @@ RUN ./mvnw clean package -DskipTests
 
 # Run the application
 EXPOSE 8000
-CMD ["java", "-jar", "target/CinemaVerse-1.0.0.jar"]
+CMD ["java", "-jar", "target/ReelCritic-1.0.0.jar"]
