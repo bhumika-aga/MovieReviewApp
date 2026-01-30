@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<maven.version>3.8.0</maven.version>
-		<jwt.version>0.11.5</jwt.version>
+		<jwt.version>0.12.6</jwt.version>
 	</properties>
 
 	<dependencies>

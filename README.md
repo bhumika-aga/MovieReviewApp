@@ -21,8 +21,8 @@ ReelCritic isn't just another movie review app—it's a carefully crafted digita
 - [Prerequisites](#-prerequisites)
 - [Installation & Setup](#-installation--setup)
 - [Running the Application](#️-running-the-application)
-- [API Documentation](#-api-documentation)
-- [Testing](#-testing)
+- [API Documentation](#-api-documentation--examples)
+- [Testing](#-testing--development)
 - [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
 
@@ -71,7 +71,7 @@ ReelCritic isn't just another movie review app—it's a carefully crafted digita
 ### Backend Technologies
 
 - **Java** `17` - Modern LTS version with advanced features
-- **Spring Boot** `3.4.8` - Production-ready application framework
+- **Spring Boot** `3.5.10` - Production-ready application framework
 - **Spring Security** `6.2.9` - Comprehensive security framework
 - **Spring Data MongoDB** `3.4.8` - NoSQL data persistence layer
 - **MongoDB** `4.4+` - Document-based production database
@@ -665,7 +665,8 @@ ReelCritic/
 ├── render.yaml             # Render Blueprint config
 ├── pom.xml                # Maven configuration
 ├── RENDER_DEPLOYMENT.md    # Render deployment guide
-├── DEPLOYMENT.md          # General deployment guide
+├── MANUAL_DEPLOYMENT.md    # Local deployment guide
+├── PROJECT_DOCUMENTATION.md # Architecture and concepts
 └── README.md              # This file
 ```
 
