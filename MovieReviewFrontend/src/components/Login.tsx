@@ -73,7 +73,7 @@ const Login: React.FC = () => {
     } catch (error: any) {
       if (error.response?.status === 401) {
         setError(
-          "Invalid credentials. Please check your username and password."
+          "Invalid credentials. Please check your username and password.",
         );
       } else if (error.response?.data?.message) {
         setError(error.response.data.message);

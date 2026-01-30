@@ -39,7 +39,7 @@ Complete step-by-step guide for deploying ReelCritic movie review platform to Re
    - Click "Add User"
 
 4. **Configure Network Access**
-   - Go to "Network Access" in sidebar  
+   - Go to "Network Access" in sidebar
    - Click "Add IP Address"
    - Choose "Allow Access from Anywhere" (0.0.0.0/0)
    - Click "Confirm"
@@ -70,7 +70,7 @@ git push -u origin main
 Ensure these files exist in your repository:
 
 - ✅ `render.yaml` (deployment configuration)
-- ✅ `Dockerfile.render` (Docker configuration)  
+- ✅ `Dockerfile.render` (Docker configuration)
 - ✅ `src/main/resources/application-production.properties`
 - ✅ `MovieBookingFrontend/.env.production`
 
@@ -161,18 +161,18 @@ If Blueprint doesn't work, create services manually:
 
 ### Environment Variables Explanation
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `SPRING_PROFILES_ACTIVE` | Activates production config | `production` |
-| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://user:pass@cluster.mongodb.net/ReelCritic` |
-| `JWT_SECRET` | Secret key for JWT tokens (256-bit) | `YourSuperSecretKeyThatIs256BitsMinimumForSecurity` |
-| `JWT_EXPIRATION_MS` | JWT token expiration time | `86400000` |
-| `CORS_ALLOWED_ORIGINS` | Allowed frontend origins | `https://yourapp.onrender.com` |
-| `LOGGING_LEVEL_ROOT` | Root logging level | `WARN` |
-| `LOGGING_LEVEL_APP` | App logging level | `INFO` |
-| `LOGGING_LEVEL_JWT` | JWT logging level | `INFO` |
-| `MANAGEMENT_ENDPOINTS` | Actuator endpoints | `health,info` |
-| `REACT_APP_API_BASE_URL` | Backend API URL for frontend | `https://backend.onrender.com` |
+| Variable                 | Description                         | Example                                                  |
+| ------------------------ | ----------------------------------- | -------------------------------------------------------- |
+| `SPRING_PROFILES_ACTIVE` | Activates production config         | `production`                                             |
+| `MONGODB_URI`            | MongoDB connection string           | `mongodb+srv://user:pass@cluster.mongodb.net/ReelCritic` |
+| `JWT_SECRET`             | Secret key for JWT tokens (256-bit) | `YourSuperSecretKeyThatIs256BitsMinimumForSecurity`      |
+| `JWT_EXPIRATION_MS`      | JWT token expiration time           | `86400000`                                               |
+| `CORS_ALLOWED_ORIGINS`   | Allowed frontend origins            | `https://yourapp.onrender.com`                           |
+| `LOGGING_LEVEL_ROOT`     | Root logging level                  | `WARN`                                                   |
+| `LOGGING_LEVEL_APP`      | App logging level                   | `INFO`                                                   |
+| `LOGGING_LEVEL_JWT`      | JWT logging level                   | `INFO`                                                   |
+| `MANAGEMENT_ENDPOINTS`   | Actuator endpoints                  | `health,info`                                            |
+| `REACT_APP_API_BASE_URL` | Backend API URL for frontend        | `https://backend.onrender.com`                           |
 
 ### Important Notes
 
@@ -198,7 +198,7 @@ curl https://your-reelcritic-backend.onrender.com/actuator/health
 **Expected Response:**
 
 ```json
-{"status":"UP"}
+{ "status": "UP" }
 ```
 
 **Frontend Access:**
@@ -285,7 +285,7 @@ Services → your-backend → Logs
 # Backend
 SPRING_PROFILES_ACTIVE=production java -jar target/ReelCritic-1.0.0.jar
 
-# Frontend  
+# Frontend
 cd MovieReviewFrontend
 npm run build
 serve -s build
@@ -349,7 +349,7 @@ Environment → View all variables
 - [Render Community](https://community.render.com)
 - [Render Status](https://status.render.com)
 
-### MongoDB Atlas Resources  
+### MongoDB Atlas Resources
 
 - [Atlas Documentation](https://docs.atlas.mongodb.com)
 - [Atlas Support](https://support.mongodb.com)

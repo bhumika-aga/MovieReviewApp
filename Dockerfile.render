@@ -1,5 +1,5 @@
 # Multi-stage Dockerfile optimized for Render.com
-FROM openjdk:17-jdk-slim as backend-build
+FROM eclipse-temurin:17-jdk-alpine as backend-build
 
 WORKDIR /app
 
@@ -18,12 +18,12 @@ COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
 # Create non-root user
-RUN groupadd -r cinemaverse && useradd -r -g cinemaverse cinemaverse
+RUN addgroup -S cinemaverse && adduser -S cinemaverse -G cinemaverse
 
 # Copy JAR file
 COPY --from=backend-build /app/target/ReelCritic-1.0.0.jar app.jar

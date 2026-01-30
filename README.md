@@ -313,7 +313,7 @@ Content-Type: application/json
   "theatres": [
     {
       "theatreName": "INOX",
-      "location": "Delhi", 
+      "location": "Delhi",
       "totalSeats": 150,
       "availableSeats": 150
     }
@@ -543,7 +543,7 @@ curl -X POST "http://localhost:8080/api/v1.0/moviebooking/register" \
   -d '{
     "username": "testuser",
     "firstName": "Test",
-    "lastName": "User", 
+    "lastName": "User",
     "email": "test@example.com",
     "contactNumber": 9876543210,
     "password": "TestPass123"
@@ -748,7 +748,7 @@ Deploy ReelCritic to Render.com's free tier:
 # Prepare for cloud deployment
 ./scripts/deploy.sh
 
-# Follow cloud deployment guide  
+# Follow cloud deployment guide
 cat RENDER_DEPLOYMENT.md
 ```
 
@@ -768,7 +768,7 @@ cat RENDER_DEPLOYMENT.md
 # Build backend image
 docker build -f Dockerfile.render -t reelcritic-backend .
 
-# Build frontend image  
+# Build frontend image
 cd MovieReviewFrontend
 docker build -t reelcritic-frontend .
 
@@ -779,7 +779,7 @@ docker-compose up -d
 ### Alternative Cloud Platforms
 
 - **Backend**: AWS, Heroku, Azure, Railway
-- **Frontend**: Netlify, Vercel, AWS S3, Firebase Hosting  
+- **Frontend**: Netlify, Vercel, AWS S3, Firebase Hosting
 - **Database**: MongoDB Atlas (recommended), AWS DocumentDB
 
 ## 🤝 Contributing
@@ -826,9 +826,9 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## 👥 Authors & Contributors
 
-- **Bhumika Agarwal** - *Project Creator & Lead Developer* - [GitHub](https://github.com/bhumika-aga)
+- **Bhumika Agarwal** - _Project Creator & Lead Developer_ - [GitHub](https://github.com/bhumika-aga)
 
-*We welcome contributions! See our [Contributing Guidelines](#-contributing) to get started.*
+_We welcome contributions! See our [Contributing Guidelines](#-contributing) to get started._
 
 ## 🙏 Acknowledgments & Inspiration
 

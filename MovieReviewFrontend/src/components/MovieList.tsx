@@ -81,14 +81,14 @@ const MovieList: React.FC = () => {
     try {
       await MovieService.deleteMovie(movieName);
       const updatedMovies = movies.filter(
-        (movie) => movie.movieName !== movieName
+        (movie) => movie.movieName !== movieName,
       );
       setMovies(updatedMovies);
       setFilteredMovies(updatedMovies);
     } catch (error: any) {
       if (error.response?.data?.message?.includes("Required request header")) {
         setErrorMessage(
-          "You are not logged in. Please login before proceeding."
+          "You are not logged in. Please login before proceeding.",
         );
       } else {
         setErrorMessage("Failed to delete movie. Please try again.");
@@ -99,7 +99,7 @@ const MovieList: React.FC = () => {
 
   const genres = [
     ...new Set(
-      movies.map((movie) => movie.genre?.split(",")[0]?.trim()).filter(Boolean)
+      movies.map((movie) => movie.genre?.split(",")[0]?.trim()).filter(Boolean),
     ),
   ];
 

@@ -124,15 +124,14 @@ const Movie: React.FC<MovieProps> = ({ movie, onDelete, isAdmin }) => {
         const betterUrl = await PosterService.getPosterUrl(
           movie.movieName,
           movie.moviePoster,
-          year
+          year,
         );
 
         if (betterUrl && betterUrl !== movie.moviePoster) {
           setPosterUrl(betterUrl);
           setImageError(false); // Reset error state when we get a new URL
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     };
 
     fetchPosterUrl();

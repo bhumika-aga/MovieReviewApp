@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { Movie } from '../types/Movie';
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL
   ? `${process.env.REACT_APP_API_BASE_URL}/api/v1.0/moviebooking`
   : 'http://localhost:8080/api/v1.0/moviebooking';
 

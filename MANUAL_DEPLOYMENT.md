@@ -438,7 +438,7 @@ curl -X POST http://localhost:8080/api/v1.0/moviebooking/login \
 # For port 8080 (backend)
 lsof -ti:8080 | xargs kill -9
 
-# For port 3000 (frontend)  
+# For port 3000 (frontend)
 lsof -ti:3000 | xargs kill -9
 
 # Or use different ports
@@ -622,17 +622,17 @@ npx webpack-bundle-analyzer build/static/js/*.js
 server {
     listen 443 ssl;
     server_name your-domain.com;
-    
+
     ssl_certificate /path/to/cert.pem;
     ssl_certificate_key /path/to/key.pem;
-    
+
     # Frontend
     location / {
         proxy_pass http://localhost:3000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
-    
+
     # Backend API
     location /api/ {
         proxy_pass http://localhost:8080;
@@ -656,7 +656,7 @@ server {
 **Recommended:**
 
 - 4 GB RAM
-- 4 CPU cores  
+- 4 CPU cores
 - 20 GB SSD storage
 - Load balancer for high availability
 
@@ -716,7 +716,7 @@ sudo systemctl status cinemaverse-backend cinemaverse-frontend
 ### Pre-Deployment
 
 - [ ] Java 17+ installed and configured
-- [ ] Node.js 18+ installed and configured  
+- [ ] Node.js 18+ installed and configured
 - [ ] Maven 3.8+ installed and configured
 - [ ] MongoDB running (local or Atlas configured)
 - [ ] Repository cloned and up to date

@@ -63,7 +63,7 @@ const MovieDetail: React.FC = () => {
         const response = await MovieService.getMovieByName(decodedMovieName);
         const foundMovie = response.data.find(
           (m: Movie) =>
-            m.movieName.toLowerCase() === decodedMovieName.toLowerCase()
+            m.movieName.toLowerCase() === decodedMovieName.toLowerCase(),
         );
         setMovie(foundMovie || null);
       } catch (error) {
@@ -104,7 +104,7 @@ const MovieDetail: React.FC = () => {
 
   const getYouTubeVideoId = (url: string): string | null => {
     const match = url.match(
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
     );
     return match ? match[1] : null;
   };
@@ -140,7 +140,7 @@ const MovieDetail: React.FC = () => {
     } catch (error: any) {
       if (error.response?.status === 401) {
         alert(
-          "You must be logged in to submit a review. Please log in and try again."
+          "You must be logged in to submit a review. Please log in and try again.",
         );
       } else if (error.response?.status === 400) {
         const errorMessage =
@@ -160,8 +160,7 @@ const MovieDetail: React.FC = () => {
       await ReviewService.markReviewHelpful(reviewId);
       // Refresh reviews to update the helpful count
       await refreshReviews();
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   if (loading) {

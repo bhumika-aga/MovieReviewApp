@@ -105,18 +105,18 @@ git push origin main
 
 ## 📋 Deployment Comparison
 
-| Feature | Manual Deployment | Cloud Deployment |
-|---------|------------------|------------------|
-| **Cost** | Free (own hardware) | Free tier available |
-| **Setup Time** | 15-30 minutes | 30-45 minutes |
-| **Maintenance** | Self-managed | Managed service |
-| **Scaling** | Manual | Auto-scaling |
-| **SSL/HTTPS** | Manual setup | Automatic |
-| **Custom Domain** | Self-configured | Easy setup |
-| **Database** | Local or Atlas | Atlas required |
-| **Backups** | Manual | Platform-managed |
-| **Monitoring** | Self-setup | Built-in |
-| **Updates** | Manual | Git-based auto-deploy |
+| Feature           | Manual Deployment   | Cloud Deployment      |
+| ----------------- | ------------------- | --------------------- |
+| **Cost**          | Free (own hardware) | Free tier available   |
+| **Setup Time**    | 15-30 minutes       | 30-45 minutes         |
+| **Maintenance**   | Self-managed        | Managed service       |
+| **Scaling**       | Manual              | Auto-scaling          |
+| **SSL/HTTPS**     | Manual setup        | Automatic             |
+| **Custom Domain** | Self-configured     | Easy setup            |
+| **Database**      | Local or Atlas      | Atlas required        |
+| **Backups**       | Manual              | Platform-managed      |
+| **Monitoring**    | Self-setup          | Built-in              |
+| **Updates**       | Manual              | Git-based auto-deploy |
 
 ## 🔧 Environment Configuration
 

@@ -99,7 +99,7 @@ ReelCritic is now a **complete IMDb-style movie review application** with full-s
 - [x] Production properties optimized
 - [x] Health endpoints configured
 
-### Frontend Readiness  
+### Frontend Readiness
 
 - [x] React production build successful
 - [x] TypeScript compilation clean

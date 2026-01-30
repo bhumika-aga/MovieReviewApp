@@ -32,7 +32,7 @@ public class HealthController {
         status.put("description", "ReelCritic - The Premium Movie Review Platform");
         status.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         status.put("message", "🎬 ReelCritic is running successfully!");
-        
+
         return ResponseEntity.ok(status);
     }
 }

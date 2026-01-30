@@ -44,7 +44,7 @@ const registrationSchema = yup.object({
     .max(20, "Username cannot exceed 20 characters")
     .matches(
       /^[a-zA-Z0-9_]+$/,
-      "Username can only contain letters, numbers, and underscores"
+      "Username can only contain letters, numbers, and underscores",
     ),
   firstName: yup
     .string()
@@ -70,14 +70,14 @@ const registrationSchema = yup.object({
     .max(50, "Password cannot exceed 50 characters")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      "Password must contain at least one lowercase letter, one uppercase letter, and one number"
+      "Password must contain at least one lowercase letter, one uppercase letter, and one number",
     ),
   contactNumber: yup
     .string()
     .required("Phone number is required")
     .matches(
       /^[6-9]\d{9}$/,
-      "Please enter a valid 10-digit Indian mobile number"
+      "Please enter a valid 10-digit Indian mobile number",
     ),
   confirmPassword: yup
     .string()
